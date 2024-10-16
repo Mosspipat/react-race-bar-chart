@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Papa from "papaparse";
 import { FaHandPointDown } from "react-icons/fa";
 import { population } from "./data/population";
-import BarChart from "./component/BarChart";
+import BarChart from "./component/BarChart/BarChart";
 import { RegionBox } from "./data/region";
 
 const App = () => {

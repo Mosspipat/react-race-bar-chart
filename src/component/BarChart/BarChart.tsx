@@ -1,5 +1,6 @@
-import React from "react";
-import { CountryPopulation } from "../data/population";
+import { useMemo, useState } from "react";
+import { CountryPopulation } from "../../data/population";
+import YearAndTotalPopulation from "./YearAndTotalPopulation";
 
 const PopulationBarScale = () => {
   return (
@@ -11,8 +12,16 @@ const PopulationBarScale = () => {
 };
 
 const BarChart = ({ countryData }: { countryData: CountryPopulation[] }) => {
+  const totalPopulation = useMemo(() => {
+    const total = countryData.reduce((acc, cur) => {
+      return (acc += cur.amount);
+    }, 0);
+    return total;
+  }, [countryData]);
+
+  console.log(countryData);
   return (
-    <div className="flex flex-col bg-white gap-2">
+    <div className="relative flex flex-col bg-white gap-2">
       <div className="grid grid-cols-10">
         <div></div>
         <div className="col-span-9 flex gap-2 text-black ">
@@ -20,7 +29,6 @@ const BarChart = ({ countryData }: { countryData: CountryPopulation[] }) => {
         </div>
       </div>
       {countryData.map((countryData) => {
-        console.log(`w-[${countryData?.amount.toString()}px]`);
         return (
           <div className="grid grid-cols-10 ">
             <div className=" text-black text-right mr-2 bg-slate-400">
@@ -38,6 +46,7 @@ const BarChart = ({ countryData }: { countryData: CountryPopulation[] }) => {
           </div>
         );
       })}
+      <YearAndTotalPopulation year={2022} totalPopulation={totalPopulation} />
     </div>
   );
 };
