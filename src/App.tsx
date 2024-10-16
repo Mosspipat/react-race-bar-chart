@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import Papa from "papaparse";
 import { FaHandPointDown } from "react-icons/fa";
-import { CountryPopulation, population } from "./data/population";
+import { population } from "./data/population";
+import BarChart from "./component/BarChart";
+import { RegionBox } from "./data/region";
 
 const App = () => {
   // const [data, setData] = useState([]);
@@ -35,67 +37,21 @@ const App = () => {
     );
   };
 
-  const BarChart = ({ countryData }: { countryData: CountryPopulation[] }) => {
-    return (
-      <div className="flex flex-col gap-2">
-        <div className="flex justify-between">
-          <div>0</div>
-          <div>200</div>
-          <div>400</div>
-          <div>600</div>
-        </div>
-
-        <div className="flex flex-col bg-white gap-2">
-          {countryData.map((countryData) => {
-            console.log(`w-[${countryData?.amount.toString()}px]`);
-
-            return (
-              <div className="grid grid-cols-10 ">
-                <div className=" text-black text-right mr-2 bg-slate-400">
-                  {countryData.countryName}
-                </div>
-                <div className="col-span-9 flex gap-2 text-black ">
-                  <div
-                    style={{ width: `${countryData?.amount}px`, zIndex: 0 }}
-                    className="flex h-full bg-slate-400 z-10"
-                  />
-                  <h3 className="	" style={{ zIndex: 100 }}>
-                    {countryData?.amount}
-                  </h3>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* <div>{children}</div> */}
-      </div>
-    );
-  };
-
-  const ItemCountryBar = ({
-    countryName,
-    amount,
-  }: {
-    countryName: string;
-    amount: number;
-  }) => {
-    console.log({ countryName, amount: `w-[${amount * 10}px]` });
-    return (
-      <div className="flex items-center gap-2">
-        <p>{countryName}</p>
-        <div className={`w-[400px] h-4 rounded-sm bg-red-500`} />
-      </div>
-    );
-  };
-
-  const RegionBox: { regionName: string; color: string }[] = [
-    { regionName: "Asia", color: "bg-blue-500" },
-    { regionName: "Europe", color: "bg-purple-500" },
-    { regionName: "Africa", color: "bg-red-500" },
-    { regionName: "Oceania", color: "bg-yellow-500" },
-    { regionName: "Americas", color: "bg-yellow-300" },
-  ];
+  // const ItemCountryBar = ({
+  //   countryName,
+  //   amount,
+  // }: {
+  //   countryName: string;
+  //   amount: number;
+  // }) => {
+  //   console.log({ countryName, amount: `w-[${amount * 10}px]` });
+  //   return (
+  //     <div className="flex items-center gap-2">
+  //       <p>{countryName}</p>
+  //       <div className={`w-[400px] h-4 rounded-sm bg-red-500`} />
+  //     </div>
+  //   );
+  // };
 
   return (
     <div className=" flex flex-col gap-10 p-2">
