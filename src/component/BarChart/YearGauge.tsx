@@ -1,18 +1,20 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { FaPause, FaPlay } from "react-icons/fa";
 import LinearGauge from "./LinearGauge/LinearGauge";
+import { LinearGaugeContext } from "../../context/LinearGaugeProvider";
 
 const YearGauge = () => {
-  const [isPlay, setIsPlay] = useState<boolean>(false);
+  const { isPlayGauge, setIsPlayGauge } = useContext(LinearGaugeContext);
+  console.log("🚀: ~ isPlayGauge:", isPlayGauge);
+
   const sizeIcon = 16;
 
   const onToggle = () => {
-    console.log("toggle");
-    setIsPlay((prev) => !prev);
+    setIsPlayGauge((prev) => !prev);
   };
 
   const IconPlayerRender = () => {
-    switch (isPlay) {
+    switch (isPlayGauge) {
       case true:
         return <FaPause size={sizeIcon} />;
       case false:

@@ -5,12 +5,8 @@ import { population } from "../../data/population";
 import { RegionBox } from "../../data/region";
 import BarChart from "../BarChart/BarChart";
 import YearGauge from "../BarChart/YearGauge";
-import { LinearGaugeContext } from "../../context/LinearGaugeProvider";
 
 const GraphPopulation = () => {
-  const { currentYear } = useContext(LinearGaugeContext);
-  console.log("🚀: ~ currentYear:", currentYear);
-
   // const [data, setData] = useState([]);
 
   // const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
