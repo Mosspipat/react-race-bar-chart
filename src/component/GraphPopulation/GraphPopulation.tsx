@@ -1,7 +1,7 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import Papa from "papaparse";
 import { FaHandPointDown } from "react-icons/fa";
-import { population } from "../../data/population";
+import { populationData } from "../../data/population";
 import { RegionBox } from "../../data/region";
 import BarChart from "../BarChart/BarChart";
 import YearGauge from "../BarChart/YearGauge";
@@ -22,6 +22,31 @@ const GraphPopulation = () => {
   //     });
   //   }
   // };
+
+  const [population, setPopulation] = useState(populationData);
+
+  useEffect(() => {
+    let timer: NodeJS.Timer;
+
+    timer = setInterval(() => {
+      setPopulation((prev) => {
+        const index = prev.findIndex(
+          (country) => country.countryName === "China"
+        );
+        if (index > -1) {
+          prev[index] = {
+            countryName: "China",
+            amount: prev[index].amount + 1,
+          };
+        }
+        return [...prev];
+      });
+    }, 1000);
+
+    return () => {
+      if (timer) clearInterval(timer);
+    };
+  }, []);
 
   const RegionBoxRender = ({
     label,

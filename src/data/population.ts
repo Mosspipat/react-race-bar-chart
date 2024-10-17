@@ -3,7 +3,7 @@ export type CountryPopulation = {
   amount: number;
 };
 
-export const population: CountryPopulation[] = [
+export const populationData: CountryPopulation[] = [
   {
     countryName: "China",
     amount: 10,

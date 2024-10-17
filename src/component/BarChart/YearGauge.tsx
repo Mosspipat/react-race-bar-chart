@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { FaPause, FaPlay } from "react-icons/fa";
 import LinearGauge from "./LinearGauge/LinearGauge";
 import { LinearGaugeContext } from "../../context/LinearGaugeProvider";
