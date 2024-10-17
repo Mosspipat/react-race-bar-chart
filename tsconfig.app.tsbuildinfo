@@ -1,1 +1,1 @@
-{"root":["./src/app.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/component/slider.tsx","./src/types/react-range-slider-input.d.ts"],"version":"5.6.3"}
+{"root":["./src/app.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/component/slider.tsx","./src/component/barchart/barchart.tsx","./src/component/barchart/yearandtotalpopulation.tsx","./src/component/barchart/yeatindicator.tsx","./src/component/barchart/index.ts","./src/data/population.ts","./src/data/region.ts","./src/types/react-range-slider-input.d.ts"],"errors":true,"version":"5.6.3"}

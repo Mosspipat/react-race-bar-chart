@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { CountryPopulation } from "../../data/population";
 import YearAndTotalPopulation from "./YearAndTotalPopulation";
 
@@ -19,7 +19,6 @@ const BarChart = ({ countryData }: { countryData: CountryPopulation[] }) => {
     return total;
   }, [countryData]);
 
-  console.log(countryData);
   return (
     <div className="relative flex flex-col bg-white gap-2">
       <div className="grid grid-cols-10">

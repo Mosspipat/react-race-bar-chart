@@ -4,6 +4,7 @@ import { FaHandPointDown } from "react-icons/fa";
 import { population } from "./data/population";
 import BarChart from "./component/BarChart/BarChart";
 import { RegionBox } from "./data/region";
+import YearGauge from "./component/BarChart/YearGauge";
 
 const App = () => {
   // const [data, setData] = useState([]);
@@ -79,6 +80,8 @@ const App = () => {
       </div>
 
       <BarChart countryData={population} />
+      <YearGauge />
+
       {/* <input type="file" accept=".csv" onChange={handleFileUpload} />
       <pre>{JSON.stringify(data, null, 2)}</pre>  //แสดงข้อมูล JSON  */}
     </div>

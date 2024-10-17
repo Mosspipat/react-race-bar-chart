@@ -532,6 +532,69 @@
   resolved "https://registry.yarnpkg.com/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.24.0.tgz#0574d7e87b44ee8511d08cc7f914bcb802b70818"
   integrity sha512-fbMkAF7fufku0N2dE5TBXcNlg0pt0cJue4xBRE2Qc5Vqikxr4VCgKj/ht6SMdFcOacVA9rqF70APJ8RN/4vMJw==
 
+"@syncfusion/ej2-base@~27.1.50":
+  version "27.1.53"
+  resolved "https://registry.yarnpkg.com/@syncfusion/ej2-base/-/ej2-base-27.1.53.tgz#ad01f8125df231a08184849007886534bfc6b3b8"
+  integrity sha512-3P9n84dbn9wbAQQR31Y4iRS77VvDm6Im6Y20XD+BxYtEyEysJX8uEVKVY9jZL6sSZOWgvlKngdvoqv0ibqn7sw==
+  dependencies:
+    "@syncfusion/ej2-icons" "~27.1.50"
+
+"@syncfusion/ej2-compression@~27.1.50":
+  version "27.1.53"
+  resolved "https://registry.yarnpkg.com/@syncfusion/ej2-compression/-/ej2-compression-27.1.53.tgz#f3c10ddc423375ce646696aa70fc5a8770f4977f"
+  integrity sha512-fp6UwvNnhAQk3fwWG7Y3nIIIIx8W0+py3p/UvgTKYZe+zwISgLSE+mSX+e+vjL2qD6pyMg4DQJ2uaI+vV0zqDw==
+  dependencies:
+    "@syncfusion/ej2-file-utils" "~27.1.53"
+
+"@syncfusion/ej2-file-utils@~27.1.53":
+  version "27.1.53"
+  resolved "https://registry.yarnpkg.com/@syncfusion/ej2-file-utils/-/ej2-file-utils-27.1.53.tgz#0224e4d5b76649f5ecae2d40cbd56434462ca7e9"
+  integrity sha512-MgXZh/KNd2HREItmbHHRIS/f6vgWLFn8uBUBe5LagolHpQporUJMOn66gr8FEtwKpynWKNBOfhPsQKyhHTFbxw==
+
+"@syncfusion/ej2-icons@~27.1.50":
+  version "27.1.50"
+  resolved "https://registry.yarnpkg.com/@syncfusion/ej2-icons/-/ej2-icons-27.1.50.tgz#af719706ced97c64b6c17eeee726a503cf29e435"
+  integrity sha512-LisXluEss0VnFuSh+pNSgHqT/Cg1FKTvkxdKWoSvqAma3dpcuCfrWP4svyMKPAsCi/hxAGdyy3ShKHu0PUP9iA==
+
+"@syncfusion/ej2-lineargauge@27.1.50":
+  version "27.1.50"
+  resolved "https://registry.yarnpkg.com/@syncfusion/ej2-lineargauge/-/ej2-lineargauge-27.1.50.tgz#50772fab791498908a8f37a55f09ab2c952365ef"
+  integrity sha512-+7FpdxaAY2TLiyjugyVanoWNDlk/uM1BGJT5eD86cv5nNqTKTkqeEJXMO96icd7pZrelmXorN2wXi0c86HVzSw==
+  dependencies:
+    "@syncfusion/ej2-base" "~27.1.50"
+    "@syncfusion/ej2-pdf-export" "~27.1.50"
+    "@syncfusion/ej2-svg-base" "~27.1.50"
+
+"@syncfusion/ej2-pdf-export@~27.1.50":
+  version "27.1.51"
+  resolved "https://registry.yarnpkg.com/@syncfusion/ej2-pdf-export/-/ej2-pdf-export-27.1.51.tgz#b75f18ac76932b473fb2c842cc90d8c34132fde2"
+  integrity sha512-Sbt5FNlL+S4W45YMwCpd+2hG+z5nrDdJn7ZeA/PDaj3Yzi4IbmT9xDIbVtO06dGQAGwUywFlhXphxcR/3JWHvQ==
+  dependencies:
+    "@syncfusion/ej2-compression" "~27.1.50"
+
+"@syncfusion/ej2-react-base@~27.1.50":
+  version "27.1.50"
+  resolved "https://registry.yarnpkg.com/@syncfusion/ej2-react-base/-/ej2-react-base-27.1.50.tgz#6eeebbc07f44d0f047374656ad60df96571fea6d"
+  integrity sha512-mmU99YM+oHbSYVjH0zo8THxyCYc63WRks9JSMFlfF+Bq1uNxJ5a5Cwovhyl12uffrdZDmIxpH35yXy0T9ueCEQ==
+  dependencies:
+    "@syncfusion/ej2-base" "~27.1.50"
+
+"@syncfusion/ej2-react-lineargauge@^27.1.50":
+  version "27.1.50"
+  resolved "https://registry.yarnpkg.com/@syncfusion/ej2-react-lineargauge/-/ej2-react-lineargauge-27.1.50.tgz#96a6bbfd10dfac5c857f3dbae0ba31f83ea768de"
+  integrity sha512-leOKfujkVR16L1pbG/JJAw+Ib9CA+zd/L11SuJHbMQTwECxyJdbPZoMXoTrXIaMOXrhkCYfVHweRNB3izavdMQ==
+  dependencies:
+    "@syncfusion/ej2-base" "~27.1.50"
+    "@syncfusion/ej2-lineargauge" "27.1.50"
+    "@syncfusion/ej2-react-base" "~27.1.50"
+
+"@syncfusion/ej2-svg-base@~27.1.50":
+  version "27.1.50"
+  resolved "https://registry.yarnpkg.com/@syncfusion/ej2-svg-base/-/ej2-svg-base-27.1.50.tgz#d08efe009d60f79a9bba7d1b63f9de760851a1c7"
+  integrity sha512-SCX38cHp1aHdZoTQbFBotbBpZfYW8Qs9tm15j8ylNXVJ/w+kkjy4JjrZUIkjImDmfxVL5BP9dw/INMRaRaRLBQ==
+  dependencies:
+    "@syncfusion/ej2-base" "~27.1.50"
+
 "@types/babel__core@^7.20.5":
   version "7.20.5"
   resolved "https://registry.yarnpkg.com/@types/babel__core/-/babel__core-7.20.5.tgz#3df15f27ba85319caa07ba08d0721889bb39c017"

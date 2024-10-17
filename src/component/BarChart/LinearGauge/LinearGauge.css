@@ -1,0 +1,28 @@
+.timeline-container {
+  position: relative;
+  width: 100%;
+  margin-top: 50px;
+}
+
+.timeline {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+  /* border-bottom: 2px solid gray; */
+  position: relative;
+}
+
+.tick {
+  cursor: pointer;
+  user-select: none;
+}
+
+.indicator {
+  position: absolute;
+  transform: rotate(180deg);
+  top: -30px;
+  color: gray;
+  font-size: 20px;
+  transition: left 0.3s ease-in-out;
+}
