@@ -7,7 +7,7 @@ export const LinearGaugeContext = createContext<LinearContext>({
 
 export type LinearContext = {
   currentYear: number;
-  setCurrentYear: (year: number) => void;
+  setCurrentYear: React.Dispatch<React.SetStateAction<number>>;
   children?: React.ReactNode;
 };
 

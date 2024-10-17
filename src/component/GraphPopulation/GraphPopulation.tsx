@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext } from "react";
 import Papa from "papaparse";
 import { FaHandPointDown } from "react-icons/fa";
 import { population } from "../../data/population";

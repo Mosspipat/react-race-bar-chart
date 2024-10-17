@@ -45,7 +45,7 @@ const BarChart = ({ countryData }: { countryData: CountryPopulation[] }) => {
           </div>
         );
       })}
-      <YearAndTotalPopulation year={2022} totalPopulation={totalPopulation} />
+      <YearAndTotalPopulation totalPopulation={totalPopulation} />
     </div>
   );
 };

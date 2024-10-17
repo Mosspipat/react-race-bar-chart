@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef } from "react";
 import "./LinearGauge.css"; // Import your custom CSS
 import { LinearGaugeContext } from "../../../context/LinearGaugeProvider";
 
@@ -13,7 +13,7 @@ const LinearGauge = () => {
 
   // useEffect(() => {
   //   const timer = setInterval(() => {
-  //     setSelectedYear((prev) => prev + 1);
+  //     setCurrentYear((prev) => prev + 1);
   //   }, 500);
 
   //   return () => {
