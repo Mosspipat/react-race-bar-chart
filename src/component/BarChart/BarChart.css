@@ -1,8 +1,0 @@
-.box-country {
-  background: white;
-  /* i want animation when data change */
-  transition: all 1s ease;
-  border-radius: 5px;
-  padding: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}

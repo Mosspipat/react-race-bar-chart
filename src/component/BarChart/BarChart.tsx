@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { CountryPopulation } from "../../data/population";
+import { motion } from "framer-motion"; // Import motion from Framer Motion
 import YearAndTotalPopulation from "./YearAndTotalPopulation";
-import "./BarChart.css";
 
 const PopulationBarScale = () => {
   return (
@@ -15,13 +15,14 @@ const PopulationBarScale = () => {
 const BarChart = ({ countryData }: { countryData: CountryPopulation[] }) => {
   // Sort countryData by amount in ascending order
   const sortedCountryData = useMemo(() => {
-    return [...countryData].sort((a, b) => a.amount - b.amount);
+    return [...countryData].sort((a, b) => b.amount - a.amount);
   }, [countryData]);
 
   const totalPopulation = useMemo(() => {
-    const total = sortedCountryData.reduce((acc, cur) => {
-      return (acc += cur.amount);
-    }, 0);
+    const total = sortedCountryData.reduce(
+      (acc, cur) => (acc += cur.amount),
+      0
+    );
     return total;
   }, [sortedCountryData]);
 
@@ -40,28 +41,33 @@ const BarChart = ({ countryData }: { countryData: CountryPopulation[] }) => {
           : false;
 
         return (
-          <div
+          <motion.div
             key={country.countryName}
-            className="grid grid-cols-10 box-country"
+            layout // Add layout prop to animate changes in position
+            className="grid grid-cols-10 "
+            initial={{ opacity: 0 }} // Initial animation when the item first appears
+            animate={{ opacity: 1 }} // Animate when the item is rendered
+            exit={{ opacity: 0 }} // Optionally add exit animation
+            transition={{ duration: 0.5 }}
           >
             <div className="text-black text-right mr-2 bg-slate-400">
               {country.countryName}
             </div>
             <div className="col-span-9 flex gap-2 text-black">
-              <div
+              <motion.div
                 style={{ width: `${country.amount}px`, zIndex: 0 }}
                 className="flex h-full bg-slate-400 z-10 transition-all duration-500"
               />
-              <h3
+              <motion.h3
                 className={`transition-all duration-500 ${
                   hasIncreased ? "animate-move-up" : ""
                 }`}
                 style={{ zIndex: 100 }}
               >
                 {country.amount}
-              </h3>
+              </motion.h3>
             </div>
-          </div>
+          </motion.div>
         );
       })}
       <YearAndTotalPopulation totalPopulation={totalPopulation} />
