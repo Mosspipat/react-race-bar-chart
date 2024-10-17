@@ -4,7 +4,6 @@ import LinearGauge from "./LinearGauge/LinearGauge";
 
 const YearGauge = () => {
   const [isPlay, setIsPlay] = useState<boolean>(false);
-
   const sizeIcon = 16;
 
   const onToggle = () => {

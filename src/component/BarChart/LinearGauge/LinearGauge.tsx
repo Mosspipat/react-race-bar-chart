@@ -1,14 +1,25 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import "./LinearGauge.css"; // Import your custom CSS
+import { LinearGaugeContext } from "../../../context/LinearGaugeProvider";
 
 const LinearGauge = () => {
-  const [selectedYear, setSelectedYear] = useState(1950);
+  const { currentYear, setCurrentYear } = useContext(LinearGaugeContext);
 
   const timelineRef = useRef<HTMLDivElement>(null);
   const indicatorRef = useRef<HTMLDivElement>(null);
   const currentYearRef = useRef<HTMLDivElement>(null);
 
-  //function set current year
+  //timer every 1 sec selectedYear +1
+
+  // useEffect(() => {
+  //   const timer = setInterval(() => {
+  //     setSelectedYear((prev) => prev + 1);
+  //   }, 500);
+
+  //   return () => {
+  //     clearInterval(timer);
+  //   };
+  // }, []);
 
   useEffect(() => {
     if (indicatorRef.current) {
@@ -16,7 +27,7 @@ const LinearGauge = () => {
 
       // Find the div that contains the selected year
       const myLabelYear = Array.from(ticks).find(
-        (tick) => tick.textContent.trim() === String(selectedYear)
+        (tick) => tick.textContent.trim() === String(currentYear)
       );
 
       if (myLabelYear) {
@@ -39,11 +50,7 @@ const LinearGauge = () => {
         console.log("🚀: Year element not found.");
       }
     }
-  }, [selectedYear]);
-
-  function setCurrentYear(year: number) {
-    setSelectedYear(year);
-  }
+  }, [currentYear]);
 
   const years: number[] = [];
   for (let i = 1950; i <= 2020; i += 4) {
@@ -60,20 +67,23 @@ const LinearGauge = () => {
         }
       };
 
+      const conditionRenderLabel = () => {
+        if (years.includes(year)) {
+          return "opacity-100";
+        } else {
+          return "opacity-0";
+        }
+      };
+
       return (
         <div className="flex flex-col justify-center items-center ">
           <div className={conditionRenderBar()}></div>
-          {years.includes(year) && (
-            <div
-              key={year}
-              className="tick absolute mt-10"
-              // style={{
-              //   fontWeight: year === selectedYear ? "bold" : "normal",
-              // }}
-            >
-              {year}
-            </div>
-          )}
+          <div
+            key={year}
+            className={`tick absolute mt-10 ${conditionRenderLabel()} pointer-events-auto`}
+          >
+            {year}
+          </div>
         </div>
       );
     };
@@ -93,24 +103,13 @@ const LinearGauge = () => {
     <div className="timeline-container border-t-2 border-t-slate-500">
       <div ref={timelineRef} className="timeline">
         {(() => {
-          return Array.from({ length: (2020 - 1950) / 4 + 1 }, (_, index) => {
+          return Array.from({ length: 2020 - 1950 }, (_, index) => {
             const year = 1950 + index;
             return <YearLabelRender key={year} year={year} />;
           });
         })()}
-        {/* {years.map((year) => (
-          <div className="flex ">
-            <div className="relative flex flex-col items-center ">
-              <YearLabelRender year={year} />
-            </div>
-          </div>
-        ))} */}
       </div>
-      <div
-        ref={indicatorRef}
-        className="indicator"
-        // style={{ left: `${((selectedYear - 1950) / 70) * 100}%` }}
-      >
+      <div ref={indicatorRef} className="indicator">
         ▲
       </div>
     </div>
