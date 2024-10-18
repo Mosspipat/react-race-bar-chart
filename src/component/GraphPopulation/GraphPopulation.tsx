@@ -5,14 +5,18 @@ import { populationData } from "../../data/population";
 import { RegionBox } from "../../data/region";
 import BarChart from "../BarChart/BarChart";
 import YearGauge from "../BarChart/YearGauge";
-import { callDataExcel } from "../../util/dataExel";
+// import { callDataExcel } from "../../util/dataExel";
 
 const GraphPopulation = () => {
-  const [data, setData] = useState([]);
+  // const [data, setData] = useState([]);
+  // console.log("🚀: ~ data:", data);
 
-  useEffect(() => {
-    callDataExcel();
-  }, []);
+  // useEffect(() => {
+  //   (async () => {
+  //     const data = await callDataExcel();
+  //     setData(data);
+  //   })();
+  // }, []);
 
   const [population, setPopulation] = useState(populationData);
 
