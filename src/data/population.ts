@@ -6,7 +6,7 @@ export type CountryPopulation = {
 export const populationData: CountryPopulation[] = [
   {
     countryName: "China",
-    amount: 10,
+    amount: 120,
   },
   {
     countryName: "India",

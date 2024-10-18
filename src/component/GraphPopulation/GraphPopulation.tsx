@@ -36,7 +36,7 @@ const GraphPopulation = () => {
         if (index > -1) {
           prev[index] = {
             countryName: "China",
-            amount: prev[index].amount + 1,
+            amount: prev[index].amount + 2,
           };
         }
         return [...prev];

@@ -1,35 +1,64 @@
-import { useContext, useEffect, useMemo, useRef } from "react";
+import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { CountryPopulation } from "../../data/population";
-import { motion } from "framer-motion"; // Import motion from Framer Motion
 import YearAndTotalPopulation from "./YearAndTotalPopulation";
 import { LinearGaugeContext } from "../../context/LinearGaugeProvider";
 import CountryAmountGraph from "./CountryAmountGraph";
 
+import { motion } from "framer-motion";
+
 const PopulationBarScale = () => {
   const { TopAmountPopulation } = useContext(LinearGaugeContext);
-  console.log("🚀: ~ TopAmountPopulation:", TopAmountPopulation);
-  const barRef = useRef(null);
 
-  const GridLineRender = (numberScale: number) => {
-    // i want to get width barRef
-    const width = barRef.current?.getBoundingClientRect().width;
-    // console.log("🚀: ~ width:", width);
+  const barGridRef = useRef(null);
+  console.log("🚀: ~ barGridRef:", barGridRef);
 
-    return (
-      <div className="flex items-center gap-2 flex-1 bg-green-500">
-        <p className="text-white font-bold">{numberScale}</p>
-      </div>
-    );
-  };
+  const widthValue = useMemo(() => {
+    return barGridRef.current?.getBoundingClientRect().width;
+  }, [barGridRef.current?.getBoundingClientRect().width]);
+
+  console.log("🚀: ~ widthValue:", widthValue);
+
+  const initValueGrid = 50;
+  const gridMeasureVisible = 4;
+
+  const [gridMeasure, setGridMeasure] = useState(3);
 
   return (
-    <div ref={barRef} className="flex items-center gap-2 bg-red-500 w-full">
-      {GridLineRender(0)}
-      {GridLineRender(300)}
-      {/* {NextBarRender(600)}
-      {NextBarRender(900)}
-      {NextBarRender(1200)} */}
-    </div>
+    <motion.div
+      ref={barGridRef}
+      layout
+      initial={{ opacity: 0 }} // Initial animation when the item first appears
+      animate={{ opacity: 1 }} // Animate when the item is rendered
+      exit={{ opacity: 0 }} // Optionally add exit animation
+      transition={{ duration: 1 }}
+      className="flex items-center justify-center w-full"
+    >
+      {[...Array(gridMeasure)].map((_, i) => {
+        // const valueCal =
+        //   ((i % gridMeasure) * TopAmountPopulation * widthValue) %
+        //   TopAmountPopulation;
+
+        // console.log({ valueCal });
+
+        return (
+          <motion.div
+            key={i}
+            style={{
+              width: `${widthValue / gridMeasure}px`,
+            }}
+            className="border-l-2 border-green-400 "
+            //animtion when the item is rendered
+            initial={{ opacity: 1 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            {/* {Math.floor(TopAmountPopulation * (i / gridMeasure))} */}
+            {Math.floor(TopAmountPopulation * (i / gridMeasure))}
+          </motion.div>
+        );
+      })}
+    </motion.div>
   );
 };
 

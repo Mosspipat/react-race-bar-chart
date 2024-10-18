@@ -16,16 +16,12 @@ const LinearGauge = () => {
     let timer: NodeJS.Timer;
 
     if (isPlayGauge) {
-      console.log("mount");
       timer = setInterval(() => {
         setCurrentYear((prev) => prev + 1);
       }, 500);
     }
 
     return () => {
-      // console.log("clear interval:", timer);
-      console.log("unmount");
-
       if (timer) clearInterval(timer);
     };
   }, [isPlayGauge]);

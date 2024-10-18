@@ -11,11 +11,6 @@ const CountryAmountGraph = ({ country }: { country: CountryPopulation }) => {
   const maxWidthBox =
     populationAmountRef.current?.getBoundingClientRect().width;
 
-  console.log({
-    countryName: country.countryName,
-    step1: country.amount / TopAmountPopulation,
-  });
-
   const widthValue = useMemo(() => {
     return (country.amount / TopAmountPopulation) * maxWidthBox;
   }, [country.amount, TopAmountPopulation]);
@@ -30,23 +25,24 @@ const CountryAmountGraph = ({ country }: { country: CountryPopulation }) => {
       exit={{ opacity: 0 }} // Optionally add exit animation
       transition={{ duration: 1 }}
     >
-      <div className="text-black text-right mr-2 bg-slate-400">
+      <div className="text-black text-right mr-2 bg-slate-400 p-1">
         {country.countryName}
       </div>
       <div
         ref={populationAmountRef}
-        className="col-span-9 flex gap-2 text-black"
+        className="  col-span-9 flex gap-2 text-black"
       >
         <div
           style={{ width: `${widthValue}px`, zIndex: 0 }}
-          className="flex h-full bg-slate-400 z-10 transition-all duration-500"
-        />
-        <h3
-          className={`transition-all duration-500 text-white`}
-          style={{ zIndex: 100 }}
+          className=" relative flex h-full bg-slate-400 z-10 transition-all duration-500"
         >
-          {country.amount}
-        </h3>
+          <h3
+            className={` absolute top-[50%] right-[0%] -translate-y-[50%] translate-x-[150%]  transition-all duration-500 text-white`}
+            style={{ zIndex: 100 }}
+          >
+            {country.amount}
+          </h3>
+        </div>
       </div>
     </motion.div>
   );
