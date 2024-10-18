@@ -5,7 +5,6 @@ import { LinearGaugeContext } from "../../context/LinearGaugeProvider";
 
 const YearGauge = () => {
   const { isPlayGauge, setIsPlayGauge } = useContext(LinearGaugeContext);
-  console.log("🚀: ~ isPlayGauge:", isPlayGauge);
 
   const sizeIcon = 16;
 
@@ -23,7 +22,7 @@ const YearGauge = () => {
   };
 
   return (
-    <div className="flex gap-2 bg-red-500 items-center ">
+    <div className="flex gap-2  items-center ">
       <button
         className="rounded-full w-10 h-10 bg-slate-800 flex justify-center items-center focus:outline-none  hover:outline-none hover:border-none active:border-none border-none"
         onClick={onToggle}

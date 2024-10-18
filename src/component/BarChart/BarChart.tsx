@@ -1,22 +1,48 @@
-import { useMemo } from "react";
+import { useContext, useEffect, useMemo, useRef } from "react";
 import { CountryPopulation } from "../../data/population";
 import { motion } from "framer-motion"; // Import motion from Framer Motion
 import YearAndTotalPopulation from "./YearAndTotalPopulation";
+import { LinearGaugeContext } from "../../context/LinearGaugeProvider";
+import CountryAmountGraph from "./CountryAmountGraph";
 
 const PopulationBarScale = () => {
+  const { TopAmountPopulation } = useContext(LinearGaugeContext);
+  console.log("🚀: ~ TopAmountPopulation:", TopAmountPopulation);
+  const barRef = useRef(null);
+
+  const GridLineRender = (numberScale: number) => {
+    // i want to get width barRef
+    const width = barRef.current?.getBoundingClientRect().width;
+    // console.log("🚀: ~ width:", width);
+
+    return (
+      <div className="flex items-center gap-2 flex-1 bg-green-500">
+        <p className="text-white font-bold">{numberScale}</p>
+      </div>
+    );
+  };
+
   return (
-    <div className="flex items-center gap-2">
-      <p className="text-white font-bold">Population</p>
-      <div className="w-4 h-4 rounded-sm bg-red-500" />
+    <div ref={barRef} className="flex items-center gap-2 bg-red-500 w-full">
+      {GridLineRender(0)}
+      {GridLineRender(300)}
+      {/* {NextBarRender(600)}
+      {NextBarRender(900)}
+      {NextBarRender(1200)} */}
     </div>
   );
 };
 
 const BarChart = ({ countryData }: { countryData: CountryPopulation[] }) => {
+  const { setTopAmountPopulation } = useContext(LinearGaugeContext);
   // Sort countryData by amount in ascending order
   const sortedCountryData = useMemo(() => {
     return [...countryData].sort((a, b) => b.amount - a.amount);
   }, [countryData]);
+
+  useEffect(() => {
+    setTopAmountPopulation(sortedCountryData[0].amount);
+  }, [setTopAmountPopulation, sortedCountryData]);
 
   const totalPopulation = useMemo(() => {
     const total = sortedCountryData.reduce(
@@ -30,44 +56,13 @@ const BarChart = ({ countryData }: { countryData: CountryPopulation[] }) => {
     <div className="relative flex flex-col gap-2">
       <div className="grid grid-cols-10">
         <div></div>
-        <div className="col-span-9 flex gap-2 text-black">
+        <div className="col-span-9 flex gap-2 text-black bg-blue-600">
           <PopulationBarScale />
         </div>
       </div>
-      {sortedCountryData.map((country, index) => {
-        const previousCountry = index > 0 ? sortedCountryData[index - 1] : null;
-        const hasIncreased = previousCountry
-          ? country.amount > previousCountry.amount
-          : false;
-
+      {sortedCountryData.map((country) => {
         return (
-          <motion.div
-            key={country.countryName}
-            layout // Add layout prop to animate changes in position
-            className="grid grid-cols-10 "
-            initial={{ opacity: 0 }} // Initial animation when the item first appears
-            animate={{ opacity: 1 }} // Animate when the item is rendered
-            exit={{ opacity: 0 }} // Optionally add exit animation
-            transition={{ duration: 0.5 }}
-          >
-            <div className="text-black text-right mr-2 bg-slate-400">
-              {country.countryName}
-            </div>
-            <div className="col-span-9 flex gap-2 text-black">
-              <motion.div
-                style={{ width: `${country.amount}px`, zIndex: 0 }}
-                className="flex h-full bg-slate-400 z-10 transition-all duration-500"
-              />
-              <motion.h3
-                className={`transition-all duration-500 ${
-                  hasIncreased ? "animate-move-up" : ""
-                }`}
-                style={{ zIndex: 100 }}
-              >
-                {country.amount}
-              </motion.h3>
-            </div>
-          </motion.div>
+          <CountryAmountGraph key={country.countryName} country={country} />
         );
       })}
       <YearAndTotalPopulation totalPopulation={totalPopulation} />
