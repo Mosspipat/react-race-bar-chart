@@ -1,27 +1,18 @@
 import { useEffect, useState } from "react";
-import Papa from "papaparse";
+
 import { FaHandPointDown } from "react-icons/fa";
 import { populationData } from "../../data/population";
 import { RegionBox } from "../../data/region";
 import BarChart from "../BarChart/BarChart";
 import YearGauge from "../BarChart/YearGauge";
+import { callDataExcel } from "../../util/dataExel";
 
 const GraphPopulation = () => {
-  // const [data, setData] = useState([]);
+  const [data, setData] = useState([]);
 
-  // const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const file = e?.target?.files?.[0];
-
-  //   if (file) {
-  //     Papa.parse(file, {
-  //       header: true, // กำหนดให้แปลงหัวตารางเป็น key ใน JSON
-  //       skipEmptyLines: true, // ข้ามบรรทัดที่ว่าง
-  //       complete: (result) => {
-  //         setData(result.data as []); // บันทึกข้อมูลที่แปลงแล้วใน state
-  //       },
-  //     });
-  //   }
-  // };
+  useEffect(() => {
+    callDataExcel();
+  }, []);
 
   const [population, setPopulation] = useState(populationData);
 

@@ -10,13 +10,10 @@ const PopulationBarScale = () => {
   const { TopAmountPopulation } = useContext(LinearGaugeContext);
 
   const barGridRef = useRef(null);
-  console.log("🚀: ~ barGridRef:", barGridRef);
 
   const widthValue = useMemo(() => {
     return barGridRef.current?.getBoundingClientRect().width;
   }, [barGridRef.current?.getBoundingClientRect().width]);
-
-  console.log("🚀: ~ widthValue:", widthValue);
 
   const initValueGrid = 50;
   const gridMeasureVisible = 4;
