@@ -1,0 +1,26 @@
+export type CountryData = {
+  "Country name": string;
+  Year: string;
+  Population: string;
+  "Population of children under the age of 1": string;
+  "Population of children under the age of 5": string;
+  "Population of children under the age of 15": string;
+  "Population under the age of 25": string;
+  "Population aged 15 to 64 years": string;
+  "Population older than 15 years": string;
+  "Population older than 18 years": string;
+  "Population at age 1": string;
+  "Population aged 1 to 4 years": string;
+  "Population aged 5 to 9 years": string;
+  "Population aged 10 to 14 years": string;
+  "Population aged 15 to 19 years": string;
+  "Population aged 20 to 29 years": string;
+  "Population aged 30 to 39 years": string;
+  "Population aged 40 to 49 years": string;
+  "Population aged 50 to 59 years": string;
+  "Population aged 60 to 69 years": string;
+  "Population aged 70 to 79 years": string;
+  "Population aged 80 to 89 years": string;
+  "Population aged 90 to 99 years": string;
+  "Population older than 100 years": string;
+};

@@ -1,6 +1,7 @@
 export type CountryPopulation = {
   countryName: string;
   amount: number;
+  year?: number;
 };
 
 export const populationData: CountryPopulation[] = [
