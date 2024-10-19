@@ -2,7 +2,7 @@ import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { CountryPopulation } from "../../data/population";
 import YearAndTotalPopulation from "./YearAndTotalPopulation";
 import { LinearGaugeContext } from "../../context/LinearGaugeProvider";
-import CountryAmountGraph from "./CountryAmountGraph";
+import CountryBar from "./CountryBar";
 
 import { motion } from "framer-motion";
 
@@ -89,9 +89,7 @@ const BarChart = ({ countryData }: { countryData: CountryPopulation[] }) => {
       </div> */}
       {/*  */}
       {sortedCountryData.map((country) => {
-        return (
-          <CountryAmountGraph key={country.countryName} country={country} />
-        );
+        return <CountryBar key={country.countryName} country={country} />;
       })}
       <YearAndTotalPopulation totalPopulation={totalPopulation} />
     </div>
