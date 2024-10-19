@@ -25,7 +25,7 @@ const CountryAmountGraph = ({ country }: { country: CountryPopulation }) => {
       exit={{ opacity: 0 }} // Optionally add exit animation
       transition={{ duration: 1 }}
     >
-      <div className="text-black text-right mr-2 bg-slate-400 p-1">
+      <div className="text-slate-600 text-right font-semibold mr-2 p-1">
         {country.countryName}
       </div>
       <div
@@ -37,15 +37,10 @@ const CountryAmountGraph = ({ country }: { country: CountryPopulation }) => {
           className=" relative flex h-full bg-slate-400 z-10 transition-all duration-500"
         >
           <h3
-            className={` absolute top-[50%] right-[0%] -translate-y-[50%] translate-x-[150%]  transition-all duration-500 text-white`}
+            className={` absolute top-[50%] right-[0%] -translate-y-[50%] translate-x-[150%]  transition-all duration-500 text-slate-600 font-bold`}
             style={{ zIndex: 100 }}
           >
-            {/* {countryListData[country.countryName]?.[country.year ?? 0]
-              ?.amount ?? country.amount} */}
-
-            {/* {countryListData} */}
-
-            {country.amount}
+            {country.amount.toLocaleString("en-US")}
           </h3>
         </div>
       </div>

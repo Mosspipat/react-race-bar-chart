@@ -80,12 +80,14 @@ const BarChart = ({ countryData }: { countryData: CountryPopulation[] }) => {
 
   return (
     <div className="relative flex flex-col gap-2">
-      <div className="grid grid-cols-10">
+      {/* grid scale */}
+      {/* <div className="grid grid-cols-10">
         <div></div>
         <div className="col-span-9 flex gap-2 text-black bg-blue-600">
           <PopulationBarScale />
         </div>
-      </div>
+      </div> */}
+      {/*  */}
       {sortedCountryData.map((country) => {
         return (
           <CountryAmountGraph key={country.countryName} country={country} />

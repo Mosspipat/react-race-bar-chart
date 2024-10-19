@@ -1,8 +1,8 @@
 import { useContext, useEffect, useRef } from "react";
-import "./LinearGauge.css"; // Import your custom CSS
+import "./YearGrid.css"; // Import your custom CSS
 import { LinearGaugeContext } from "../../../context/LinearGaugeProvider";
 
-const LinearGauge = () => {
+const YearGrid = () => {
   const { currentYear, setCurrentYear, isPlayGauge, setIsPlayGauge } =
     useContext(LinearGaugeContext);
 
@@ -19,7 +19,7 @@ const LinearGauge = () => {
       timer = setInterval(() => {
         setCurrentYear((prev) => {
           const nextYear = prev + 1;
-          if (nextYear > 2020) {
+          if (nextYear > 2021) {
             clearInterval(timer); // Stop the timer when exceeding 2020
             return prev; // Return the previous value to prevent increment
           }
@@ -69,8 +69,8 @@ const LinearGauge = () => {
     years.push(i);
   }
 
-  const YearLabelRender = ({ year }: { year: number }) => {
-    const YearRender = (year: number) => {
+  const YearLabel = ({ year }: { year: number }) => {
+    const RenderYear = (year: number) => {
       const conditionRenderBar = () => {
         if (years.includes(year)) {
           return "bg-slate-500 w-1 h-3 z-30";
@@ -92,7 +92,7 @@ const LinearGauge = () => {
           <div className={conditionRenderBar()}></div>
           <div
             key={year}
-            className={`tick absolute mt-10 ${conditionRenderLabel()} pointer-events-auto`}
+            className={`tick absolute mt-10 ${conditionRenderLabel()} pointer-events-auto text-slate-600 font-semibold`}
           >
             {year}
           </div>
@@ -109,7 +109,7 @@ const LinearGauge = () => {
           });
         }}
       >
-        {YearRender(year)}
+        {RenderYear(year)}
       </div>
     );
   };
@@ -118,9 +118,9 @@ const LinearGauge = () => {
     <div className="timeline-container border-t-2 border-t-slate-500">
       <div ref={timelineRef} className="timeline">
         {(() => {
-          return Array.from({ length: 2020 - 1950 }, (_, index) => {
+          return Array.from({ length: 2022 - 1950 }, (_, index) => {
             const year = 1950 + index;
-            return <YearLabelRender key={year} year={year} />;
+            return <YearLabel key={year} year={year} />;
           });
         })()}
       </div>
@@ -131,4 +131,4 @@ const LinearGauge = () => {
   );
 };
 
-export default LinearGauge;
+export default YearGrid;
