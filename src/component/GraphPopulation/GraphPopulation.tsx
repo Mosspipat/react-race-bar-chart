@@ -1,47 +1,62 @@
-import { useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 
 import { FaHandPointDown } from "react-icons/fa";
-import { populationData } from "../../data/population";
+import { CountryPopulation, populationData } from "../../data/population";
 import { RegionBox } from "../../data/region";
 import BarChart from "../BarChart/BarChart";
 import YearGauge from "../BarChart/YearGauge";
-// import { callDataExcel } from "../../util/dataExel";
+import { callDataExcel, filterData } from "../../util/dataExcel";
+import { LinearGaugeContext } from "../../context/LinearGaugeProvider";
 
 const GraphPopulation = () => {
-  // const [data, setData] = useState([]);
-  // console.log("🚀: ~ data:", data);
+  const { filterCountryData, setFilterCountryData, currentYear } =
+    useContext(LinearGaugeContext);
+  const [countryData, setCountryData] = useState<CountryPopulation[]>([]);
 
-  // useEffect(() => {
-  //   (async () => {
-  //     const data = await callDataExcel();
-  //     setData(data);
-  //   })();
-  // }, []);
+  console.log(currentYear);
+
+  useEffect(() => {
+    const newCountryData: CountryPopulation[] = [];
+    console.log({ newCountryData });
+    for (const countryName in filterCountryData) {
+      const amount = filterCountryData[countryName]?.[currentYear]?.amount ?? 0;
+      newCountryData.push({
+        countryName,
+        amount,
+      });
+    }
+    setCountryData(newCountryData);
+  }, [filterCountryData, currentYear]);
 
   const [population, setPopulation] = useState(populationData);
 
+  const getData = useCallback(async () => {
+    const data = await callDataExcel();
+
+    const dataFilter = filterData({
+      data,
+      nameCountryList: [
+        "China",
+        "India",
+        "United States", // "USA",
+        "Russia",
+        "Japan",
+        "Indonesia",
+        "Germany",
+        "Brazil",
+        "United Kingdom", // "UK",
+        "Italy",
+        "France",
+        "Bangladesh",
+      ],
+    });
+    setFilterCountryData(dataFilter);
+  }, []); // memorize function เมื่อ mount
+
   useEffect(() => {
-    let timer: NodeJS.Timer;
-
-    timer = setInterval(() => {
-      setPopulation((prev) => {
-        const index = prev.findIndex(
-          (country) => country.countryName === "China"
-        );
-        if (index > -1) {
-          prev[index] = {
-            countryName: "China",
-            amount: prev[index].amount + 2,
-          };
-        }
-        return [...prev];
-      });
-    }, 1000);
-
-    return () => {
-      if (timer) clearInterval(timer);
-    };
-  }, []);
+    getData();
+    console.log("fetchData");
+  }, [getData]);
 
   const RegionBoxRender = ({
     label,
@@ -57,22 +72,6 @@ const GraphPopulation = () => {
       </div>
     );
   };
-
-  // const ItemCountryBar = ({
-  //   countryName,
-  //   amount,
-  // }: {
-  //   countryName: string;
-  //   amount: number;
-  // }) => {
-  //   console.log({ countryName, amount: `w-[${amount * 10}px]` });
-  //   return (
-  //     <div className="flex items-center gap-2">
-  //       <p>{countryName}</p>
-  //       <div className={`w-[400px] h-4 rounded-sm bg-red-500`} />
-  //     </div>
-  //   );
-  // };
 
   return (
     <>
@@ -100,9 +99,9 @@ const GraphPopulation = () => {
           </div>
         </div>
 
-        <BarChart countryData={population} />
-        <YearGauge />
+        <BarChart countryData={countryData} />
 
+        <YearGauge />
         {/* <input type="file" accept=".csv" onChange={handleFileUpload} />
       <pre>{JSON.stringify(data, null, 2)}</pre>  //แสดงข้อมูล JSON  */}
       </div>

@@ -40,6 +40,11 @@ const CountryAmountGraph = ({ country }: { country: CountryPopulation }) => {
             className={` absolute top-[50%] right-[0%] -translate-y-[50%] translate-x-[150%]  transition-all duration-500 text-white`}
             style={{ zIndex: 100 }}
           >
+            {/* {countryListData[country.countryName]?.[country.year ?? 0]
+              ?.amount ?? country.amount} */}
+
+            {/* {countryListData} */}
+
             {country.amount}
           </h3>
         </div>

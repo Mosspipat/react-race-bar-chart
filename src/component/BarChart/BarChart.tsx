@@ -63,16 +63,16 @@ const BarChart = ({ countryData }: { countryData: CountryPopulation[] }) => {
   const { setTopAmountPopulation } = useContext(LinearGaugeContext);
   // Sort countryData by amount in ascending order
   const sortedCountryData = useMemo(() => {
-    return [...countryData].sort((a, b) => b.amount - a.amount);
+    return [...countryData].sort((a, b) => b?.amount - a?.amount);
   }, [countryData]);
 
   useEffect(() => {
-    setTopAmountPopulation(sortedCountryData[0].amount);
+    setTopAmountPopulation(sortedCountryData[0]?.amount);
   }, [setTopAmountPopulation, sortedCountryData]);
 
   const totalPopulation = useMemo(() => {
     const total = sortedCountryData.reduce(
-      (acc, cur) => (acc += cur.amount),
+      (acc, cur) => (acc += cur?.amount),
       0
     );
     return total;

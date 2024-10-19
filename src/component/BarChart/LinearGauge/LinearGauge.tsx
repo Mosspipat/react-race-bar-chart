@@ -3,7 +3,7 @@ import "./LinearGauge.css"; // Import your custom CSS
 import { LinearGaugeContext } from "../../../context/LinearGaugeProvider";
 
 const LinearGauge = () => {
-  const { currentYear, setCurrentYear, isPlayGauge } =
+  const { currentYear, setCurrentYear, isPlayGauge, setIsPlayGauge } =
     useContext(LinearGaugeContext);
 
   const timelineRef = useRef<HTMLDivElement>(null);
@@ -17,14 +17,21 @@ const LinearGauge = () => {
 
     if (isPlayGauge) {
       timer = setInterval(() => {
-        setCurrentYear((prev) => prev + 1);
-      }, 500);
+        setCurrentYear((prev) => {
+          const nextYear = prev + 1;
+          if (nextYear > 2020) {
+            clearInterval(timer); // Stop the timer when exceeding 2020
+            return prev; // Return the previous value to prevent increment
+          }
+          return nextYear;
+        });
+      }, 200);
     }
 
     return () => {
       if (timer) clearInterval(timer);
     };
-  }, [isPlayGauge]);
+  }, [isPlayGauge, setCurrentYear]);
 
   useEffect(() => {
     if (indicatorRef.current) {
@@ -96,7 +103,10 @@ const LinearGauge = () => {
     return (
       <div
         onClick={() => {
-          setCurrentYear(year);
+          setCurrentYear(() => {
+            setIsPlayGauge(false);
+            return year;
+          });
         }}
       >
         {YearRender(year)}
