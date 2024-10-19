@@ -72,7 +72,7 @@ const GraphPopulation = () => {
   };
 
   return (
-    <div className=" flex flex-col gap-10 p-2">
+    <div className=" flex flex-col gap-10 p-2 w-[100%]">
       {/* header component */}
       <div className="text-slate-600 flex flex-col gap-2">
         <h1 className="font-bold">
