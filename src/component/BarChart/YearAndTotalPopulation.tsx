@@ -13,7 +13,7 @@ const YearAndTotalPopulation = ({
       <h1 className=" font-bold">{currentYear}</h1>
       <p className=" font-semibold  text-2xl">
         <span className=" mr-2">Total:</span>
-        {totalPopulation}
+        {totalPopulation.toLocaleString("en-US")}
       </p>
     </div>
   );

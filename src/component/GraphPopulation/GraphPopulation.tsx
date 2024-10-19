@@ -13,8 +13,6 @@ const GraphPopulation = () => {
     useContext(LinearGaugeContext);
   const [countryData, setCountryData] = useState<CountryPopulation[]>([]);
 
-  console.log(currentYear);
-
   useEffect(() => {
     const newCountryData: CountryPopulation[] = [];
     console.log({ newCountryData });
@@ -72,7 +70,7 @@ const GraphPopulation = () => {
   };
 
   return (
-    <div className=" flex flex-col gap-10 p-2 w-[100%]">
+    <div className=" flex flex-col gap-10 p-2 w-screen  ">
       {/* header component */}
       <div className="text-slate-600 flex flex-col gap-2">
         <h1 className="font-bold">

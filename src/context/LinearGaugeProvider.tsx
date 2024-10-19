@@ -4,6 +4,8 @@ import { CountryListData } from "../type/linearGauge";
 export const LinearGaugeContext = createContext<LinearContext>({
   currentYear: 1950,
   setCurrentYear: () => {},
+  maxMinYear: { minYear: 0, maxYear: 0 },
+  setMaxMinYear: () => {},
   isPlayGauge: false,
   setIsPlayGauge: () => {},
   TopAmountPopulation: 0,
@@ -15,6 +17,10 @@ export const LinearGaugeContext = createContext<LinearContext>({
 export type LinearContext = {
   currentYear: number;
   setCurrentYear: React.Dispatch<React.SetStateAction<number>>;
+  maxMinYear: { minYear: number; maxYear: number };
+  setMaxMinYear: React.Dispatch<
+    React.SetStateAction<{ minYear: number; maxYear: number }>
+  >;
   isPlayGauge: boolean;
   setIsPlayGauge: React.Dispatch<React.SetStateAction<boolean>>;
   TopAmountPopulation: number;
@@ -24,7 +30,15 @@ export type LinearContext = {
 };
 
 const LinearGaugeProvider = ({ children }: { children: React.ReactNode }) => {
-  const [currentYear, setCurrentYear] = useState(1950);
+  const [maxMinYear, setMaxMinYear] = useState<{
+    minYear: number;
+    maxYear: number;
+  }>({
+    minYear: 1950,
+    maxYear: 2022,
+  });
+
+  const [currentYear, setCurrentYear] = useState(maxMinYear.minYear);
   const [isPlayGauge, setIsPlayGauge] = useState(false);
   const [TopAmountPopulation, setTopAmountPopulation] = useState(0);
   const [filterCountryData, setFilterCountryData] = useState<CountryListData>(
@@ -36,6 +50,8 @@ const LinearGaugeProvider = ({ children }: { children: React.ReactNode }) => {
       value={{
         currentYear,
         setCurrentYear,
+        maxMinYear,
+        setMaxMinYear,
         isPlayGauge,
         setIsPlayGauge,
         TopAmountPopulation,

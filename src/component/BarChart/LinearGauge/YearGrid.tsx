@@ -1,10 +1,15 @@
-import { useContext, useEffect, useMemo, useRef, useState } from "react";
+import { useContext, useEffect, useMemo, useRef } from "react";
 import "./YearGrid.css"; // Import your custom CSS
 import { LinearGaugeContext } from "../../../context/LinearGaugeProvider";
 
 const YearGrid = () => {
-  const { currentYear, setCurrentYear, isPlayGauge, setIsPlayGauge } =
-    useContext(LinearGaugeContext);
+  const {
+    currentYear,
+    setCurrentYear,
+    isPlayGauge,
+    setIsPlayGauge,
+    maxMinYear,
+  } = useContext(LinearGaugeContext);
 
   const timelineRef = useRef<HTMLDivElement>(null);
   const indicatorRef = useRef<HTMLDivElement>(null);
@@ -17,7 +22,7 @@ const YearGrid = () => {
       timer = setInterval(() => {
         setCurrentYear((prev) => {
           const nextYear = prev + 1;
-          if (nextYear > 2021) {
+          if (nextYear >= maxMinYear.maxYear) {
             clearInterval(timer); // Stop the timer when exceeding 2020
             return prev; // Return the previous value to prevent increment
           }
@@ -63,7 +68,7 @@ const YearGrid = () => {
   }, [currentYear]);
 
   const years: number[] = [];
-  for (let i = 1950; i <= 2022; i += 4) {
+  for (let i = maxMinYear.minYear; i <= maxMinYear.maxYear; i += 4) {
     years.push(i);
   }
 
@@ -76,8 +81,7 @@ const YearGrid = () => {
       return years.includes(year) ? "opacity-100" : "opacity-0";
     };
 
-    const widthSpace = widthValue / (2022 - 1950);
-    console.log("🚀: ~ widthSpace:", widthSpace);
+    const widthSpace = widthValue && widthValue / (2022 - 1950);
 
     return (
       <div
@@ -118,10 +122,13 @@ const YearGrid = () => {
     <div className="timeline-container border-t-2 border-t-slate-500 w-full">
       <div ref={timelineRef} className=" relative flex ">
         {(() => {
-          return Array.from({ length: 2022 - 1950 }, (_, index) => {
-            const year = 1950 + index;
-            return <GridRulerRender key={year} year={year} />;
-          });
+          return Array.from(
+            { length: maxMinYear.maxYear - maxMinYear.minYear },
+            (_, index) => {
+              const year = maxMinYear.minYear + index;
+              return <GridRulerRender key={year} year={year} />;
+            }
+          );
         })()}
       </div>
       <div ref={indicatorRef} className="indicator">
