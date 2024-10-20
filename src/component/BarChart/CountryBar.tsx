@@ -44,7 +44,7 @@ const CountryBar = ({ country }: { country: CountryPopulation }) => {
       exit={{ opacity: 0 }} // Optionally add exit animation
       transition={{ duration: 1 }}
     >
-      <div className="text-slate-600 text-right font-semibold mr-2 p-1">
+      <div className="text-slate-600 text-right font-bold mr-2 p-1">
         {country.countryName}
       </div>
       <div
