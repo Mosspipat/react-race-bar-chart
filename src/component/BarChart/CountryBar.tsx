@@ -9,16 +9,28 @@ import { countryWith2Letter } from "../../util/country";
 const CountryBar = ({ country }: { country: CountryPopulation }) => {
   const { TopAmountPopulation } = useContext(LinearGaugeContext);
 
+  const countryBarRef = useRef<HTMLDivElement | null>(null);
+
   const populationAmountRef = useRef<HTMLDivElement | null>(null);
   // i want to get width populationAmountRef
-  const maxWidthBox =
+  const maxWidthPopulationBar =
     populationAmountRef.current?.getBoundingClientRect().width;
 
-  const widthValue = useMemo(() => {
-    return (country.amount / TopAmountPopulation) * (maxWidthBox || 0);
-  }, [country.amount, TopAmountPopulation]);
+  const maxHeightCountryBar = Math.floor(
+    countryBarRef.current?.getBoundingClientRect().height as number
+  );
 
-  console.log(country?.countryName);
+  console.log({
+    countryName: country.countryName,
+    maxHeightCountryBar,
+    maxWidthPopulationBar80Per: maxHeightCountryBar * 0.8,
+  });
+
+  const widthValue = useMemo(() => {
+    return (
+      (country.amount / TopAmountPopulation) * (maxWidthPopulationBar || 0)
+    );
+  }, [country.amount, TopAmountPopulation]);
 
   return (
     <motion.div
@@ -35,13 +47,20 @@ const CountryBar = ({ country }: { country: CountryPopulation }) => {
       </div>
       <div
         ref={populationAmountRef}
-        className="  col-span-9 flex gap-2 text-black"
+        className="  col-span-9 flex gap-2 text-black "
       >
         <div
+          ref={countryBarRef}
           style={{ width: `${widthValue}px`, zIndex: 0 }}
           className="relative flex h-full bg-slate-400 z-10 transition-all duration-500 p-5"
         >
-          <div className=" absolute w-[30px] h-[30px] right-5 translate-x-1/2 -translate-y-1/2 rounded-full overflow-hidden">
+          <div
+            className={`absolute top-[50%] right-5 translate-x-1/2 -translate-y-1/2 rounded-full overflow-hidden`}
+            style={{
+              width: maxHeightCountryBar * 0.8,
+              height: maxHeightCountryBar * 0.8,
+            }}
+          >
             <Flag
               code={
                 countryWith2Letter[
@@ -55,6 +74,7 @@ const CountryBar = ({ country }: { country: CountryPopulation }) => {
               }}
             />
           </div>
+          {/* {country.amount.toLocaleString("en-US")} */}
 
           <h3
             className={` absolute top-[50%] right-[0%] -translate-y-[50%] translate-x-[150%]  transition-all duration-500 text-slate-600 font-bold`}
