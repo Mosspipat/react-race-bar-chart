@@ -1,16 +1,23 @@
-import { useContext, useEffect, useRef } from "react";
-import "./LinearGauge.css"; // Import your custom CSS
-import { LinearGaugeContext } from "../../../context/LinearGaugeProvider";
+import { useContext, useEffect, useMemo, useRef } from "react";
+import "./YearGrid.css"; // Import your custom CSS
+import { BarChartValueContext } from "../../../context/BarChartValueContextProvider";
 
-const LinearGauge = () => {
-  const { currentYear, setCurrentYear, isPlayGauge, setIsPlayGauge } =
-    useContext(LinearGaugeContext);
+const YearGrid = () => {
+  const {
+    currentYear,
+    setCurrentYear,
+    isPlayGauge,
+    setIsPlayGauge,
+    maxMinYear,
+  } = useContext(BarChartValueContext);
 
   const timelineRef = useRef<HTMLDivElement>(null);
   const indicatorRef = useRef<HTMLDivElement>(null);
   const currentYearRef = useRef<HTMLDivElement>(null);
 
-  //timer every 1 sec selectedYear +1
+  const widthValue = useMemo(() => {
+    return timelineRef.current?.getBoundingClientRect().width;
+  }, [timelineRef.current?.getBoundingClientRect().width]);
 
   useEffect(() => {
     let timer: NodeJS.Timer;
@@ -19,7 +26,7 @@ const LinearGauge = () => {
       timer = setInterval(() => {
         setCurrentYear((prev) => {
           const nextYear = prev + 1;
-          if (nextYear > 2020) {
+          if (nextYear >= maxMinYear.maxYear) {
             clearInterval(timer); // Stop the timer when exceeding 2020
             return prev; // Return the previous value to prevent increment
           }
@@ -65,41 +72,38 @@ const LinearGauge = () => {
   }, [currentYear]);
 
   const years: number[] = [];
-  for (let i = 1950; i <= 2020; i += 4) {
+  for (let i = maxMinYear.minYear; i <= maxMinYear.maxYear; i += 4) {
     years.push(i);
   }
 
-  const YearLabelRender = ({ year }: { year: number }) => {
-    const YearRender = (year: number) => {
-      const conditionRenderBar = () => {
-        if (years.includes(year)) {
-          return "bg-slate-500 w-1 h-3 z-30";
-        } else {
-          return "bg-slate-500 w-1 h-1 z-30";
-        }
-      };
-
-      const conditionRenderLabel = () => {
-        if (years.includes(year)) {
-          return "opacity-100";
-        } else {
-          return "opacity-0";
-        }
-      };
-
-      return (
-        <div className="flex flex-col justify-center items-center ">
-          <div className={conditionRenderBar()}></div>
-          <div
-            key={year}
-            className={`tick absolute mt-10 ${conditionRenderLabel()} pointer-events-auto`}
-          >
-            {year}
-          </div>
-        </div>
-      );
+  const RulerRender = (year: number) => {
+    const conditionRenderBar = () => {
+      return `bg-[#a5a5a5] w-1 ${years.includes(year) ? "h-3" : "h-1"} z-30`;
     };
 
+    const conditionRenderYear = () => {
+      return years.includes(year) ? "opacity-100" : "opacity-0";
+    };
+
+    const widthSpace = widthValue && widthValue / (2022 - 1950);
+
+    return (
+      <div
+        style={{ width: widthSpace }}
+        className="flex flex-col justify-center items-start  "
+      >
+        <div className={conditionRenderBar()}></div>
+        <div
+          key={year}
+          className={`tick absolute mt-10 ${conditionRenderYear()} pointer-events-auto text-[#a5a5a5] font-semibold -translate-x-[50%]`}
+        >
+          {year}
+        </div>
+      </div>
+    );
+  };
+
+  const GridRulerRender = ({ year }: { year: number }) => {
     return (
       <div
         onClick={() => {
@@ -109,19 +113,22 @@ const LinearGauge = () => {
           });
         }}
       >
-        {YearRender(year)}
+        {RulerRender(year)}
       </div>
     );
   };
 
   return (
-    <div className="timeline-container border-t-2 border-t-slate-500">
-      <div ref={timelineRef} className="timeline">
+    <div className="timeline-container border-t-2 border-[#a5a5a5] col-span-2 w-full  ">
+      <div ref={timelineRef} className=" relative flex ">
         {(() => {
-          return Array.from({ length: 2020 - 1950 }, (_, index) => {
-            const year = 1950 + index;
-            return <YearLabelRender key={year} year={year} />;
-          });
+          return Array.from(
+            { length: maxMinYear.maxYear - maxMinYear.minYear },
+            (_, index) => {
+              const year = maxMinYear.minYear + index;
+              return <GridRulerRender key={year} year={year} />;
+            }
+          );
         })()}
       </div>
       <div ref={indicatorRef} className="indicator">
@@ -131,4 +138,4 @@ const LinearGauge = () => {
   );
 };
 
-export default LinearGauge;
+export default YearGrid;

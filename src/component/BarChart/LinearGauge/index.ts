@@ -1,1 +1,1 @@
-export { default as LinearGauge } from "./LinearGauge";
+export { default as YearGrid } from "./YearGrid";
