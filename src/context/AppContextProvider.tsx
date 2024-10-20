@@ -1,12 +1,15 @@
 import React from "react";
-import LinearGaugeProvider from "./LinearGaugeProvider";
+import BarChartValueContext from "./BarChartValueContextProvider";
+import BarChartProvider from "./BarChartContextProvider";
 
 export const AppContext = React.createContext<null>(null);
 
 const AppContextProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <AppContext.Provider value={null}>
-      <LinearGaugeProvider>{children}</LinearGaugeProvider>
+      <BarChartProvider>
+        <BarChartValueContext>{children}</BarChartValueContext>
+      </BarChartProvider>
     </AppContext.Provider>
   );
 };

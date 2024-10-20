@@ -1,47 +1,58 @@
-import { useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 
 import { FaHandPointDown } from "react-icons/fa";
-import { populationData } from "../../data/population";
+import { CountryPopulation } from "../../data/population";
 import { RegionBox } from "../../data/region";
 import BarChart from "../BarChart/BarChart";
-import YearGauge from "../BarChart/YearGauge";
-// import { callDataExcel } from "../../util/dataExel";
+import YearController from "../BarChart/YearController";
+import { callDataExcel, filterData } from "../../util/dataExcel";
+import { BarChartValueContext } from "../../context/BarChartValueContextProvider";
 
 const GraphPopulation = () => {
-  // const [data, setData] = useState([]);
-  // console.log("🚀: ~ data:", data);
-
-  // useEffect(() => {
-  //   (async () => {
-  //     const data = await callDataExcel();
-  //     setData(data);
-  //   })();
-  // }, []);
-
-  const [population, setPopulation] = useState(populationData);
+  const { filterCountryData, setFilterCountryData, currentYear } =
+    useContext(BarChartValueContext);
+  const [countryData, setCountryData] = useState<CountryPopulation[]>([]);
 
   useEffect(() => {
-    let timer: NodeJS.Timer;
-
-    timer = setInterval(() => {
-      setPopulation((prev) => {
-        const index = prev.findIndex(
-          (country) => country.countryName === "China"
-        );
-        if (index > -1) {
-          prev[index] = {
-            countryName: "China",
-            amount: prev[index].amount + 2,
-          };
-        }
-        return [...prev];
+    const newCountryData: CountryPopulation[] = [];
+    console.log({ newCountryData });
+    for (const countryName in filterCountryData) {
+      const amount = filterCountryData[countryName]?.[currentYear]?.amount ?? 0;
+      newCountryData.push({
+        countryName,
+        amount,
       });
-    }, 1000);
+    }
+    setCountryData(newCountryData);
+  }, [filterCountryData, currentYear]);
 
-    return () => {
-      if (timer) clearInterval(timer);
-    };
-  }, []);
+  const getData = useCallback(async () => {
+    const data = await callDataExcel();
+
+    const dataFilter = filterData({
+      data,
+      nameCountryList: [
+        "China",
+        "India",
+        "United States", // "USA",
+        "Russia",
+        "Japan",
+        "Indonesia",
+        "Germany",
+        "Brazil",
+        "United Kingdom", // "UK",
+        "Italy",
+        "France",
+        "Bangladesh",
+      ],
+    });
+    setFilterCountryData(dataFilter);
+  }, []); // memorize function เมื่อ mount
+
+  useEffect(() => {
+    getData();
+    console.log("fetchData");
+  }, [getData]);
 
   const RegionBoxRender = ({
     label,
@@ -58,35 +69,21 @@ const GraphPopulation = () => {
     );
   };
 
-  // const ItemCountryBar = ({
-  //   countryName,
-  //   amount,
-  // }: {
-  //   countryName: string;
-  //   amount: number;
-  // }) => {
-  //   console.log({ countryName, amount: `w-[${amount * 10}px]` });
-  //   return (
-  //     <div className="flex items-center gap-2">
-  //       <p>{countryName}</p>
-  //       <div className={`w-[400px] h-4 rounded-sm bg-red-500`} />
-  //     </div>
-  //   );
-  // };
-
   return (
-    <>
-      <div className=" flex flex-col gap-10 p-2">
+    <div className="flex justify-center w-screen">
+      <div className=" flex flex-col gap-10 p-2 w-[80%]  ">
         {/* header component */}
-        <div className="flex flex-col gap-2">
-          <h1>Population growth per country, 1950 to 2021</h1>
-          <h2 className="flex items-center gap-2">
+        <div className="text-slate-600 flex flex-col gap-2">
+          <h1 className="font-bold">
+            Population growth per country, 1950 to 2021
+          </h1>
+          <h2 className="flex items-center gap-2 font-normal text-2xl">
             Click on the legend below to filter by continent
-            <FaHandPointDown color="yellow" />
+            <FaHandPointDown color="orange" />
           </h2>
         </div>
         {/* filter component */}
-        <div className="flex gap-4">
+        <div className="flex gap-4 text-slate-600 font-medium">
           <h2 className="font-bold">Region</h2>
           <div className="flex items-center gap-2">
             {RegionBox.map((region) => {
@@ -99,14 +96,10 @@ const GraphPopulation = () => {
             })}
           </div>
         </div>
-
-        <BarChart countryData={population} />
-        <YearGauge />
-
-        {/* <input type="file" accept=".csv" onChange={handleFileUpload} />
-      <pre>{JSON.stringify(data, null, 2)}</pre>  //แสดงข้อมูล JSON  */}
+        <BarChart countryData={countryData} />
+        <YearController />
       </div>
-    </>
+    </div>
   );
 };
 

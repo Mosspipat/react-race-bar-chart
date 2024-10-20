@@ -1,5 +1,4 @@
 import Papa from "papaparse";
-import { CountryPopulation } from "../data/population";
 import { CountryData } from "../type/excel";
 
 export const callDataExcel = async (): Promise<any[]> => {
@@ -63,21 +62,31 @@ export const filterData = ({
     .reduce((acc, country) => {
       const countryName = country["Country name"];
 
-      // Initialize the country name key if it doesn't exist
+      // // Initialize the country name key if it doesn't exist
+      // if (!acc[countryName]) {
+      //   acc[countryName] = [];
+      // }
+
       if (!acc[countryName]) {
-        acc[countryName] = [];
+        acc[countryName] = {};
       }
 
-      // Push the current country's amount and year into the array
-      acc[countryName].push({
-        amount: Number(country.Population),
-        year: Number(country.Year),
-      });
+      acc[countryName] = {
+        ...acc[countryName],
+        [Number(country.Year)]: {
+          amount: Number(country.Population),
+        },
+      };
+
+      // // Push the current country's amount and year into the array
+      // acc[countryName].push({
+      //   [Number(country.Year)]: {
+      //     amount: Number(country.Population),
+      //   },
+      // });
 
       return acc;
     }, {});
-
-  console.log(filterCountry);
 
   return filterCountry;
 };
