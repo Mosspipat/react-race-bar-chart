@@ -22,7 +22,7 @@ const YearController = () => {
   };
 
   return (
-    <div className="flex gap-2  items-center  ">
+    <div className="flex gap-6  items-center    ">
       <button
         className="rounded-full w-10 h-10 bg-slate-800 flex justify-center items-center focus:outline-none  hover:outline-none hover:border-none active:border-none border-none"
         onClick={onToggle}

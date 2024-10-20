@@ -15,6 +15,10 @@ const YearGrid = () => {
   const indicatorRef = useRef<HTMLDivElement>(null);
   const currentYearRef = useRef<HTMLDivElement>(null);
 
+  const widthValue = useMemo(() => {
+    return timelineRef.current?.getBoundingClientRect().width;
+  }, [timelineRef.current?.getBoundingClientRect().width]);
+
   useEffect(() => {
     let timer: NodeJS.Timer;
 
@@ -74,7 +78,7 @@ const YearGrid = () => {
 
   const RulerRender = (year: number) => {
     const conditionRenderBar = () => {
-      return `bg-slate-500 w-1 ${years.includes(year) ? "h-3" : "h-1"} z-30`;
+      return `bg-[#a5a5a5] w-1 ${years.includes(year) ? "h-3" : "h-1"} z-30`;
     };
 
     const conditionRenderYear = () => {
@@ -91,7 +95,7 @@ const YearGrid = () => {
         <div className={conditionRenderBar()}></div>
         <div
           key={year}
-          className={`tick absolute mt-10 ${conditionRenderYear()} pointer-events-auto text-slate-600 font-semibold -translate-x-[50%]`}
+          className={`tick absolute mt-10 ${conditionRenderYear()} pointer-events-auto text-[#a5a5a5] font-semibold -translate-x-[50%]`}
         >
           {year}
         </div>
@@ -114,12 +118,8 @@ const YearGrid = () => {
     );
   };
 
-  const widthValue = useMemo(() => {
-    return timelineRef.current?.getBoundingClientRect().width;
-  }, [timelineRef.current?.getBoundingClientRect().width]);
-
   return (
-    <div className="timeline-container border-t-2 border-t-slate-500 w-full">
+    <div className="timeline-container border-t-2 border-[#a5a5a5] col-span-2 w-full  ">
       <div ref={timelineRef} className=" relative flex ">
         {(() => {
           return Array.from(

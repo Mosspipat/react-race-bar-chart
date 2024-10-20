@@ -24,7 +24,7 @@ const GridLineXAxis = forwardRef((props, ref) => {
   useEffect(() => {
     setSizeBar({
       width: sizeBarChartRace.width,
-      height: sizeBarChartRace.height,
+      height: sizeBarChartRace.height * 1.1,
     });
   }, [sizeBarChartRace]);
 
@@ -33,7 +33,7 @@ const GridLineXAxis = forwardRef((props, ref) => {
   const marginTop = 40;
   const marginRight = 20;
   const marginBottom = 20;
-  const marginLeft = 40;
+  const marginLeft = 40; //
 
   // i want width and height ref
   // const maxWidthPopulationBar = ref.current?.getBoundingClientRect().width;
@@ -55,12 +55,18 @@ const GridLineXAxis = forwardRef((props, ref) => {
     // Create the x-axis with grid lines
     const xAxis = d3
       .axisTop(x)
-      .tickSize(-sizeBar.height + marginTop + marginBottom);
+      .tickSize(-sizeBar.height + marginTop + marginBottom)
+      .ticks(4);
 
     // Select the x-axis group
-    const xAxisGroup = svg.selectAll(".x-axis").data([null]);
+    const xAxisGroup = svg
+      .selectAll(".x-axis")
+      .data([null])
+      .style("font-size", "16px") // Set font size
+      .style("font-weight", "600") // Change to semi-bold (600)
+      .style("fill", "red"); // Set font color here (black)
+    // .attr("stroke", "red"); // Set grid line color here (red)
 
-    // Enter selection: create new axis if it doesn't exist
     const xAxisEnter = xAxisGroup
       .enter()
       .append("g")
@@ -79,18 +85,9 @@ const GridLineXAxis = forwardRef((props, ref) => {
     xAxisGroup
       .merge(xAxisEnter)
       .call((g) => g.select(".domain").remove()) // Remove domain line
-      .call((g) => g.selectAll(".tick line").attr("stroke", "#ccc"))
-      .call((g) => g.selectAll(".tick text").attr("fill", "#000"));
+      .call((g) => g.selectAll(".tick line").attr("stroke", "#a5a5a5"))
+      .call((g) => g.selectAll(".tick text").attr("fill", "#a5a5a5"));
   }, [scaleWidthData]); // Re-run the effect when `data` changes
-
-  // Function to update the data (and trigger the transition)
-  const updateData = () => {
-    setScaleWidthData((pre) =>
-      pre.map((element) => {
-        return element + 10000;
-      })
-    );
-  };
 
   return (
     <div ref={ref}>
@@ -99,7 +96,7 @@ const GridLineXAxis = forwardRef((props, ref) => {
         ref={svgRef}
         width={sizeBar.width}
         height={sizeBar.height}
-        className="absolute z-30 -top-14"
+        className="absolute  -top-12 "
       ></svg>
     </div>
   );

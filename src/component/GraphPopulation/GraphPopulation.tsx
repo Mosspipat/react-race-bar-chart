@@ -9,9 +9,8 @@ import { callDataExcel, filterData } from "../../util/dataExcel";
 import { BarChartValueContext } from "../../context/BarChartValueContextProvider";
 
 const GraphPopulation = () => {
-  const { filterCountryData, setFilterCountryData, currentYear } = useContext(
-    BarChartValueContext
-  );
+  const { filterCountryData, setFilterCountryData, currentYear } =
+    useContext(BarChartValueContext);
   const [countryData, setCountryData] = useState<CountryPopulation[]>([]);
 
   useEffect(() => {
@@ -71,33 +70,35 @@ const GraphPopulation = () => {
   };
 
   return (
-    <div className=" flex flex-col gap-10 p-2 w-screen  ">
-      {/* header component */}
-      <div className="text-slate-600 flex flex-col gap-2">
-        <h1 className="font-bold">
-          Population growth per country, 1950 to 2021
-        </h1>
-        <h2 className="flex items-center gap-2 font-normal text-2xl">
-          Click on the legend below to filter by continent
-          <FaHandPointDown color="orange" />
-        </h2>
-      </div>
-      {/* filter component */}
-      <div className="flex gap-4 text-slate-600 font-medium">
-        <h2 className="font-bold">Region</h2>
-        <div className="flex items-center gap-2">
-          {RegionBox.map((region) => {
-            return (
-              <RegionBoxRender
-                label={region.regionName}
-                colorClass={region.color}
-              />
-            );
-          })}
+    <div className="flex justify-center w-screen">
+      <div className=" flex flex-col gap-10 p-2 w-[80%]  ">
+        {/* header component */}
+        <div className="text-slate-600 flex flex-col gap-2">
+          <h1 className="font-bold">
+            Population growth per country, 1950 to 2021
+          </h1>
+          <h2 className="flex items-center gap-2 font-normal text-2xl">
+            Click on the legend below to filter by continent
+            <FaHandPointDown color="orange" />
+          </h2>
         </div>
+        {/* filter component */}
+        <div className="flex gap-4 text-slate-600 font-medium">
+          <h2 className="font-bold">Region</h2>
+          <div className="flex items-center gap-2">
+            {RegionBox.map((region) => {
+              return (
+                <RegionBoxRender
+                  label={region.regionName}
+                  colorClass={region.color}
+                />
+              );
+            })}
+          </div>
+        </div>
+        <BarChart countryData={countryData} />
+        <YearController />
       </div>
-      <BarChart countryData={countryData} />
-      <YearController />
     </div>
   );
 };

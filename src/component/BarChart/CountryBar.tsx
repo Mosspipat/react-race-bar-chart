@@ -4,10 +4,12 @@ import { useContext, useMemo, useRef } from "react";
 import { BarChartValueContext } from "../../context/BarChartValueContextProvider";
 
 import Flag from "react-world-flags";
-import { countryWith2Letter } from "../../util/country";
+import { countryWith2Letter, RegionColor } from "../../util/country";
 
 const CountryBar = ({ country }: { country: CountryPopulation }) => {
   const { TopAmountPopulation } = useContext(BarChartValueContext);
+
+  console.log({ name: country.countryName });
 
   const countryBarRef = useRef<HTMLDivElement | null>(null);
 
@@ -52,7 +54,9 @@ const CountryBar = ({ country }: { country: CountryPopulation }) => {
         <div
           ref={countryBarRef}
           style={{ width: `${widthValue}px`, zIndex: 0 }}
-          className="relative flex h-full bg-slate-400 z-10 transition-all duration-500 p-5"
+          className={`relative flex h-full ${
+            RegionColor[country.countryName as keyof typeof RegionColor]
+          } z-10 transition-all duration-500 p-5`}
         >
           <div
             className={`absolute top-[50%] right-5 translate-x-1/2 -translate-y-1/2 rounded-full overflow-hidden`}
@@ -77,7 +81,7 @@ const CountryBar = ({ country }: { country: CountryPopulation }) => {
           {/* {country.amount.toLocaleString("en-US")} */}
 
           <h3
-            className={` absolute top-[50%] right-[0%] -translate-y-[50%] translate-x-[150%]  transition-all duration-500 text-slate-600 font-bold`}
+            className={` absolute top-[50%] right-[0%] -translate-y-[50%] translate-x-[150%]  transition-all duration-500 text-[#767676] font-bold`}
             style={{ zIndex: 100 }}
           >
             {country.amount.toLocaleString("en-US")}
