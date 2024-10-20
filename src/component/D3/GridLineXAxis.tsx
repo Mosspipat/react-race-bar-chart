@@ -1,17 +1,47 @@
-import React, { useRef, useEffect, useState } from "react";
+import { forwardRef, useRef, useEffect, useState, useContext } from "react";
 import * as d3 from "d3";
+import { BarChartContext } from "../../context/BarChartContextProvider";
+import { BarChartValueContext } from "../../context/BarChartValueContextProvider";
 
-const SampleD3Chart = () => {
-  const width = 640;
-  const height = 200;
+const GridLineXAxis = forwardRef((props, ref) => {
+  const { sizeBarChartRace } = useContext(BarChartContext);
+  const { TopAmountPopulation, BottomAmountPopulation } =
+    useContext(BarChartValueContext);
+
+  const svgRef = useRef();
+  const [scaleWidthData, setScaleWidthData] = useState([
+    0,
+    TopAmountPopulation,
+  ]); // Initial x-axis domain
+
+  useEffect(() => {
+    console.log({ TopAmountPopulation, BottomAmountPopulation });
+    setScaleWidthData([0, TopAmountPopulation]);
+  }, [TopAmountPopulation, BottomAmountPopulation]);
+
+  const [sizeBar, setSizeBar] = useState({ width: 0, height: 0 });
+
+  useEffect(() => {
+    setSizeBar({
+      width: sizeBarChartRace.width,
+      height: sizeBarChartRace.height,
+    });
+  }, [sizeBarChartRace]);
+
+  // const width = 1200;
+  // const height = 800;
   const marginTop = 40;
   const marginRight = 20;
   const marginBottom = 20;
   const marginLeft = 40;
 
-  const svgRef = useRef();
-  const [data, setData] = useState([1000, 1000000]); // Initial x-axis domain
-  console.log("🚀: ~ data:", data);
+  // i want width and height ref
+  // const maxWidthPopulationBar = ref.current?.getBoundingClientRect().width;
+  // console.log("🚀: ~ widthRef:", maxWidthPopulationBar);
+  // React.ForwardedRef<unknown>;
+  // const heightRef = ref.current.height;
+
+  console.log(scaleWidthData);
 
   useEffect(() => {
     const svg = d3.select(svgRef.current);
@@ -19,11 +49,13 @@ const SampleD3Chart = () => {
     // Create the x (horizontal) scale with a linear scale
     const x = d3
       .scaleLinear()
-      .domain(data) // Use data as the domain
-      .range([marginLeft, width - marginRight]);
+      .domain(scaleWidthData) // Use data as the domain
+      .range([0, sizeBar.width - marginRight]);
 
     // Create the x-axis with grid lines
-    const xAxis = d3.axisTop(x).tickSize(-height + marginTop + marginBottom);
+    const xAxis = d3
+      .axisTop(x)
+      .tickSize(-sizeBar.height + marginTop + marginBottom);
 
     // Select the x-axis group
     const xAxisGroup = svg.selectAll(".x-axis").data([null]);
@@ -39,7 +71,7 @@ const SampleD3Chart = () => {
     xAxisGroup
       .merge(xAxisEnter)
       .transition() // Apply transition
-      .duration(750) // Duration of the transition in milliseconds
+      // .duration(750) // Duration of the transition in milliseconds
       .ease(d3.easeCubic) // Easing function for smoothness
       .call(xAxis); // Update axis with new scale
 
@@ -49,11 +81,11 @@ const SampleD3Chart = () => {
       .call((g) => g.select(".domain").remove()) // Remove domain line
       .call((g) => g.selectAll(".tick line").attr("stroke", "#ccc"))
       .call((g) => g.selectAll(".tick text").attr("fill", "#000"));
-  }, [data]); // Re-run the effect when `data` changes
+  }, [scaleWidthData]); // Re-run the effect when `data` changes
 
   // Function to update the data (and trigger the transition)
   const updateData = () => {
-    setData((pre) =>
+    setScaleWidthData((pre) =>
       pre.map((element) => {
         return element + 10000;
       })
@@ -61,11 +93,16 @@ const SampleD3Chart = () => {
   };
 
   return (
-    <div>
-      <button onClick={updateData}>Update Data</button>
-      <svg ref={svgRef} width={width} height={height}></svg>
+    <div ref={ref}>
+      {/* <button onClick={updateData}>Update Data</button> */}
+      <svg
+        ref={svgRef}
+        width={sizeBar.width}
+        height={sizeBar.height}
+        className="absolute z-30 -top-14"
+      ></svg>
     </div>
   );
-};
+});
 
-export default SampleD3Chart;
+export default GridLineXAxis;

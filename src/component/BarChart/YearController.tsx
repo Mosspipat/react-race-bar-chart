@@ -1,10 +1,10 @@
 import { useContext } from "react";
 import { FaPause, FaPlay } from "react-icons/fa";
 import YearGrid from "./LinearGauge/YearGrid";
-import { LinearGaugeContext } from "../../context/LinearGaugeProvider";
+import { BarChartValueContext } from "../../context/BarChartValueContextProvider";
 
 const YearController = () => {
-  const { isPlayGauge, setIsPlayGauge } = useContext(LinearGaugeContext);
+  const { isPlayGauge, setIsPlayGauge } = useContext(BarChartValueContext);
 
   const sizeIcon = 16;
 

@@ -1,6 +1,6 @@
 import { useContext, useEffect, useMemo, useRef } from "react";
 import "./YearGrid.css"; // Import your custom CSS
-import { LinearGaugeContext } from "../../../context/LinearGaugeProvider";
+import { BarChartValueContext } from "../../../context/BarChartValueContextProvider";
 
 const YearGrid = () => {
   const {
@@ -9,7 +9,7 @@ const YearGrid = () => {
     isPlayGauge,
     setIsPlayGauge,
     maxMinYear,
-  } = useContext(LinearGaugeContext);
+  } = useContext(BarChartValueContext);
 
   const timelineRef = useRef<HTMLDivElement>(null);
   const indicatorRef = useRef<HTMLDivElement>(null);

@@ -1,7 +1,7 @@
 import { createContext, useState } from "react";
 import { CountryListData } from "../type/linearGauge";
 
-export const LinearGaugeContext = createContext<LinearContext>({
+export const BarChartValueContext = createContext<BarChartValue>({
   currentYear: 1950,
   setCurrentYear: () => {},
   maxMinYear: { minYear: 0, maxYear: 0 },
@@ -12,9 +12,11 @@ export const LinearGaugeContext = createContext<LinearContext>({
   setTopAmountPopulation: () => {},
   filterCountryData: {},
   setFilterCountryData: () => {},
+  BottomAmountPopulation: 0,
+  setBottomAmountPopulation: () => {},
 });
 
-export type LinearContext = {
+export type BarChartValue = {
   currentYear: number;
   setCurrentYear: React.Dispatch<React.SetStateAction<number>>;
   maxMinYear: { minYear: number; maxYear: number };
@@ -27,9 +29,11 @@ export type LinearContext = {
   setTopAmountPopulation: React.Dispatch<React.SetStateAction<number>>;
   filterCountryData: CountryListData | null;
   setFilterCountryData: React.Dispatch<React.SetStateAction<CountryListData>>;
+  BottomAmountPopulation: number;
+  setBottomAmountPopulation: React.Dispatch<React.SetStateAction<number>>;
 };
 
-const LinearGaugeProvider = ({ children }: { children: React.ReactNode }) => {
+const BarChartValueProvider = ({ children }: { children: React.ReactNode }) => {
   const [maxMinYear, setMaxMinYear] = useState<{
     minYear: number;
     maxYear: number;
@@ -40,13 +44,15 @@ const LinearGaugeProvider = ({ children }: { children: React.ReactNode }) => {
 
   const [currentYear, setCurrentYear] = useState(maxMinYear.minYear);
   const [isPlayGauge, setIsPlayGauge] = useState(false);
-  const [TopAmountPopulation, setTopAmountPopulation] = useState(0);
+  const [TopAmountPopulation, setTopAmountPopulation] = useState<number>(0);
+  const [BottomAmountPopulation, setBottomAmountPopulation] =
+    useState<number>(0);
   const [filterCountryData, setFilterCountryData] = useState<CountryListData>(
     {}
   );
 
   return (
-    <LinearGaugeContext.Provider
+    <BarChartValueContext.Provider
       value={{
         currentYear,
         setCurrentYear,
@@ -58,11 +64,13 @@ const LinearGaugeProvider = ({ children }: { children: React.ReactNode }) => {
         setTopAmountPopulation,
         filterCountryData,
         setFilterCountryData,
+        BottomAmountPopulation,
+        setBottomAmountPopulation,
       }}
     >
       {children}
-    </LinearGaugeContext.Provider>
+    </BarChartValueContext.Provider>
   );
 };
 
-export default LinearGaugeProvider;
+export default BarChartValueProvider;

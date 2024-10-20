@@ -1,12 +1,12 @@
 import { useContext } from "react";
-import { LinearGaugeContext } from "../../context/LinearGaugeProvider";
+import { BarChartValueContext } from "../../context/BarChartValueContextProvider";
 
-const YearAndTotalPopulation = ({
+const YearAndTotalPopulationDetail = ({
   totalPopulation,
 }: {
   totalPopulation: number;
 }) => {
-  const { currentYear } = useContext(LinearGaugeContext);
+  const { currentYear } = useContext(BarChartValueContext);
 
   return (
     <div className="absolute right-0 bottom-0 flex flex-col items-end p-2  text-slate-500">
@@ -19,4 +19,4 @@ const YearAndTotalPopulation = ({
   );
 };
 
-export default YearAndTotalPopulation;
+export default YearAndTotalPopulationDetail;

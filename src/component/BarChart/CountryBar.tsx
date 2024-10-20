@@ -1,13 +1,13 @@
 import { motion } from "framer-motion";
 import { CountryPopulation } from "../../data/population";
 import { useContext, useMemo, useRef } from "react";
-import { LinearGaugeContext } from "../../context/LinearGaugeProvider";
+import { BarChartValueContext } from "../../context/BarChartValueContextProvider";
 
 import Flag from "react-world-flags";
 import { countryWith2Letter } from "../../util/country";
 
 const CountryBar = ({ country }: { country: CountryPopulation }) => {
-  const { TopAmountPopulation } = useContext(LinearGaugeContext);
+  const { TopAmountPopulation } = useContext(BarChartValueContext);
 
   const countryBarRef = useRef<HTMLDivElement | null>(null);
 
@@ -20,11 +20,11 @@ const CountryBar = ({ country }: { country: CountryPopulation }) => {
     countryBarRef.current?.getBoundingClientRect().height as number
   );
 
-  console.log({
-    countryName: country.countryName,
-    maxHeightCountryBar,
-    maxWidthPopulationBar80Per: maxHeightCountryBar * 0.8,
-  });
+  // console.log({
+  //   countryName: country.countryName,
+  //   maxHeightCountryBar,
+  //   maxWidthPopulationBar80Per: maxHeightCountryBar * 0.8,
+  // });
 
   const widthValue = useMemo(() => {
     return (

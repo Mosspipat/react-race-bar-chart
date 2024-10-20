@@ -6,11 +6,12 @@ import { RegionBox } from "../../data/region";
 import BarChart from "../BarChart/BarChart";
 import YearController from "../BarChart/YearController";
 import { callDataExcel, filterData } from "../../util/dataExcel";
-import { LinearGaugeContext } from "../../context/LinearGaugeProvider";
+import { BarChartValueContext } from "../../context/BarChartValueContextProvider";
 
 const GraphPopulation = () => {
-  const { filterCountryData, setFilterCountryData, currentYear } =
-    useContext(LinearGaugeContext);
+  const { filterCountryData, setFilterCountryData, currentYear } = useContext(
+    BarChartValueContext
+  );
   const [countryData, setCountryData] = useState<CountryPopulation[]>([]);
 
   useEffect(() => {
