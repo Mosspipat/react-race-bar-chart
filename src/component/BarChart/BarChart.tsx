@@ -34,16 +34,17 @@ const BarChart = ({ countryData }: { countryData: CountryPopulation[] }) => {
     return total;
   }, [sortedCountryData]);
 
-  const raceBarChartRef = useRef(null);
-  const parentPopulationBarRef = useRef(null);
+  const raceBarChartRef = useRef<HTMLDivElement | null>(null);
+  const parentPopulationBarRef = useRef<HTMLDivElement | null>(null);
 
   console.log({ raceBarChartRef, parentPopulationBarRef });
 
   useEffect(() => {
     if (raceBarChartRef) {
       setSizeBarChartRace({
-        width: parentPopulationBarRef.current?.getBoundingClientRect().width,
-        height: raceBarChartRef.current?.getBoundingClientRect().height,
+        width:
+          parentPopulationBarRef.current?.getBoundingClientRect().width || 0,
+        height: raceBarChartRef.current?.getBoundingClientRect().height || 0,
       });
     }
   }, [
