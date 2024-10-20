@@ -87,7 +87,11 @@ const GridLineXAxis = forwardRef((props, ref) => {
       .call((g) => g.select(".domain").remove()) // Remove domain line
       .call((g) => g.selectAll(".tick line").attr("stroke", "#a5a5a5"))
       .call((g) => g.selectAll(".tick text").attr("fill", "#a5a5a5"));
-  }, [scaleWidthData]); // Re-run the effect when `data` changes
+
+    xAxisGroup
+      .merge(xAxisEnter)
+      .call((g) => g.selectAll(".tick text").attr("dx", "0.2em")); // ขยับข้อความไปทางขวา
+  }, [scaleWidthData, sizeBar.height, sizeBar.width]); // Re-run the effect when `data` changes
 
   return (
     <div ref={ref}>
