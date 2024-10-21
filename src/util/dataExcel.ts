@@ -25,7 +25,9 @@ export const callDataExcel = async (): Promise<any[]> => {
 };
 
 type CountryAccumulator = {
-  [countryName: string]: CountryData;
+  [countryName: string]: {
+    [year: string]: { amount: number };
+  };
 };
 
 export const filterData = ({
@@ -58,13 +60,6 @@ export const filterData = ({
       ) {
         acc[countryName][year] = { amount: Number(population) };
       }
-
-      // // Push the current country's amount and year into the array
-      // acc[countryName].push({
-      //   [Number(country.Year)]: {
-      //     amount: Number(country.Population),
-      //   },
-      // });
 
       return acc;
     }, {});
