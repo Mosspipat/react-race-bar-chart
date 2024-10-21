@@ -3,95 +3,87 @@ import * as d3 from "d3";
 import { BarChartContext } from "../../context/BarChartContextProvider";
 import { BarChartValueContext } from "../../context/BarChartValueContextProvider";
 
-const GridLineXAxis = forwardRef<SVGSVGElement, React.SVGProps<SVGSVGElement>>(
-  (props, ref) => {
-    const { sizeBarChartRace } = useContext(BarChartContext);
-    const { TopAmountPopulation, BottomAmountPopulation } =
-      useContext(BarChartValueContext);
+interface SizeBar {
+  width: number;
+  height: number;
+}
 
-    const svgRef = useRef<SVGSVGElement | null>(null);
+const GridLineXAxis = forwardRef<
+  HTMLDivElement,
+  React.HTMLProps<HTMLDivElement>
+>((props, ref) => {
+  const { sizeBarChartRace } = useContext(BarChartContext);
+  const { TopAmountPopulation } = useContext(BarChartValueContext);
 
-    const [scaleWidthData, setScaleWidthData] = useState([
-      0,
-      TopAmountPopulation,
-    ]); // Initial x-axis domain
+  const svgRef = useRef<SVGSVGElement | null>(null);
 
-    useEffect(() => {
-      setScaleWidthData([0, TopAmountPopulation]);
-    }, [TopAmountPopulation, BottomAmountPopulation]);
+  const [scaleWidthData, setScaleWidthData] = useState<number[]>([
+    0,
+    TopAmountPopulation,
+  ]);
 
-    const [sizeBar, setSizeBar] = useState({ width: 0, height: 0 });
+  useEffect(() => {
+    setScaleWidthData([0, TopAmountPopulation]);
+  }, [TopAmountPopulation]);
 
-    useEffect(() => {
-      setSizeBar({
-        width: sizeBarChartRace.width,
-        height: sizeBarChartRace.height * 1.1,
-      });
-    }, [sizeBarChartRace]);
+  const [sizeBar, setSizeBar] = useState<SizeBar>({ width: 0, height: 0 });
 
-    const marginTop = 40;
-    const marginRight = 20;
-    const marginBottom = 20;
+  useEffect(() => {
+    setSizeBar({
+      width: sizeBarChartRace.width,
+      height: sizeBarChartRace.height * 1.1,
+    });
+  }, [sizeBarChartRace]);
 
-    useEffect(() => {
-      const svg = d3.select(svgRef.current);
+  const marginTop = 40;
+  const marginRight = 20;
+  const marginBottom = 20;
 
-      // Create the x (horizontal) scale with a linear scale
-      const x = d3
-        .scaleLinear()
-        .domain(scaleWidthData) // Use data as the domain
-        .range([0, sizeBar.width - marginRight]);
+  useEffect(() => {
+    const svg = d3.select(svgRef.current);
 
-      // Create the x-axis with grid lines
-      const xAxis = d3
-        .axisTop(x)
-        .tickSize(-sizeBar.height + marginTop + marginBottom)
-        .ticks(4);
+    const x = d3
+      .scaleLinear()
+      .domain(scaleWidthData)
+      .range([0, sizeBar.width - marginRight]);
 
-      // Select the x-axis group
-      const xAxisGroup = svg
-        .selectAll(".x-axis")
-        .data([null])
-        .style("font-size", "16px") // Set font size
-        .style("font-weight", "600") // Change to semi-bold (600)
-        .style("fill", "red"); // Set font color here (black)
+    const xAxis = d3
+      .axisTop(x)
+      .tickSize(-sizeBar.height + marginTop + marginBottom)
+      .ticks(4);
 
-      const xAxisEnter = xAxisGroup
-        .enter()
-        .append("g")
-        .attr("class", "x-axis")
-        .attr("transform", `translate(0,${marginTop})`);
+    const xAxisGroup = svg
+      .selectAll(".x-axis")
+      .data([null])
+      .join("g")
+      .attr("class", "x-axis")
+      .attr("transform", `translate(0,${marginTop})`)
+      .style("font-size", "16px")
+      .style("font-weight", "600")
+      .style("fill", "red");
 
-      // Update selection: update the axis
-      xAxisGroup
-        .merge(xAxisEnter)
-        .transition() // Apply transition
-        .ease(d3.easeCubic) // Easing function for smoothness
-        .call(xAxis); // Update axis with new scale
+    xAxisGroup
+      .transition()
+      .ease(d3.easeCubic)
+      .call(xAxis as never);
 
-      // Remove the domain line and style the ticks
-      xAxisGroup
-        .merge(xAxisEnter)
-        .call((g) => g.select(".domain").remove()) // Remove domain line
-        .call((g) => g.selectAll(".tick line").attr("stroke", "#a5a5a5"))
-        .call((g) => g.selectAll(".tick text").attr("fill", "#a5a5a5"));
+    xAxisGroup
+      .call((g) => g.select(".domain").remove())
+      .call((g) => g.selectAll(".tick line").attr("stroke", "#a5a5a5"))
+      .call((g) => g.selectAll(".tick text").attr("fill", "#a5a5a5"))
+      .call((g) => g.selectAll(".tick text").attr("dx", "0.2em"));
+  }, [scaleWidthData, sizeBar.height, sizeBar.width]);
 
-      xAxisGroup
-        .merge(xAxisEnter)
-        .call((g) => g.selectAll(".tick text").attr("dx", "0.2em")); // Shift tick text right
-    }, [scaleWidthData, sizeBar.height, sizeBar.width]); // Re-run the effect when `data` changes
-
-    return (
-      <div ref={ref} {...props}>
-        <svg
-          ref={svgRef}
-          width={sizeBar.width}
-          height={sizeBar.height}
-          className="absolute -top-12"
-        ></svg>
-      </div>
-    );
-  }
-);
+  return (
+    <div ref={ref} {...props}>
+      <svg
+        ref={svgRef}
+        width={sizeBar.width}
+        height={sizeBar.height}
+        className="absolute -top-12"
+      />
+    </div>
+  );
+});
 
 export default GridLineXAxis;
