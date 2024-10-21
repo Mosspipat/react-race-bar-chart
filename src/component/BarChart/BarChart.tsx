@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo, useRef } from "react";
+import { LegacyRef, useContext, useEffect, useMemo, useRef } from "react";
 import { CountryPopulation } from "../../data/population";
 
 import { BarChartValueContext } from "../../context/BarChartValueContextProvider";
@@ -61,7 +61,9 @@ const BarChart = ({ countryData }: { countryData: CountryPopulation[] }) => {
           className=" relative col-span-9 flex gap-2 text-black "
         >
           {/* <PopulationBarScale /> */}
-          <GridLineXAxis ref={parentPopulationBarRef} />
+          <GridLineXAxis
+            ref={parentPopulationBarRef as LegacyRef<SVGSVGElement>}
+          />
         </div>
       </div>
       {/*  */}

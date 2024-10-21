@@ -6,8 +6,7 @@ import { BarChartValueContext } from "../../context/BarChartValueContextProvider
 const GridLineXAxis = forwardRef<SVGSVGElement, React.SVGProps<SVGSVGElement>>(
   (props, ref) => {
     const { sizeBarChartRace } = useContext(BarChartContext);
-    const { TopAmountPopulation, BottomAmountPopulation } =
-      useContext(BarChartValueContext);
+    const { TopAmountPopulation } = useContext(BarChartValueContext);
 
     const svgRef = useRef<SVGSVGElement | null>(null);
 
@@ -18,7 +17,7 @@ const GridLineXAxis = forwardRef<SVGSVGElement, React.SVGProps<SVGSVGElement>>(
 
     useEffect(() => {
       setScaleWidthData([0, TopAmountPopulation]);
-    }, [TopAmountPopulation, BottomAmountPopulation]);
+    }, [TopAmountPopulation]);
 
     const [sizeBar, setSizeBar] = useState({ width: 0, height: 0 });
 
@@ -52,44 +51,43 @@ const GridLineXAxis = forwardRef<SVGSVGElement, React.SVGProps<SVGSVGElement>>(
       const xAxisGroup = svg
         .selectAll(".x-axis")
         .data([null])
-        .style("font-size", "16px") // Set font size
-        .style("font-weight", "600") // Change to semi-bold (600)
-        .style("fill", "red"); // Set font color here (black)
-
-      const xAxisEnter = xAxisGroup
-        .enter()
-        .append("g")
+        .join("g") // Use join to handle the enter and update selections
         .attr("class", "x-axis")
-        .attr("transform", `translate(0,${marginTop})`);
+        .attr("transform", `translate(0,${marginTop})`)
+        .style("font-size", "16px")
+        .style("font-weight", "600")
+        .style("fill", "red");
 
       // Update selection: update the axis
       xAxisGroup
-        .merge(xAxisEnter)
         .transition() // Apply transition
-        // .duration(750) // Duration of the transition in milliseconds
         .ease(d3.easeCubic) // Easing function for smoothness
-        .call(xAxis); // Update axis with new scale
+        .call(xAxis as never); // Update axis with new scale
 
       // Remove the domain line and style the ticks
       xAxisGroup
-        .merge(xAxisEnter)
         .call((g) => g.select(".domain").remove()) // Remove domain line
         .call((g) => g.selectAll(".tick line").attr("stroke", "#a5a5a5"))
-        .call((g) => g.selectAll(".tick text").attr("fill", "#a5a5a5"));
-
-      xAxisGroup
-        .merge(xAxisEnter)
-        .call((g) => g.selectAll(".tick text").attr("dx", "0.2em")); // ขยับข้อความไปทางขวา
-    }, [scaleWidthData, sizeBar.height, sizeBar.width]); // Re-run the effect when `data` changes
+        .call((g) => g.selectAll(".tick text").attr("fill", "#a5a5a5"))
+        .call((g) => g.selectAll(".tick text").attr("dx", "0.2em")); // Shift tick text right
+    }, [scaleWidthData, sizeBar.height, sizeBar.width]); // Re-run the effect when dependencies change
 
     return (
-      <div ref={ref} {...props}>
+      <div>
         <svg
-          ref={svgRef}
+          ref={(svgElement) => {
+            svgRef.current = svgElement; // Assign svgRef current value
+            if (typeof ref === "function") {
+              ref(svgElement); // Forward ref to parent if it's a function
+            } else if (ref) {
+              ref.current = svgElement; // Assign ref if it's an object
+            }
+          }}
           width={sizeBar.width}
           height={sizeBar.height}
-          className="absolute  -top-12 "
-        ></svg>
+          className="absolute -top-12"
+          {...props} // Spread remaining props to the svg element
+        />
       </div>
     );
   }
