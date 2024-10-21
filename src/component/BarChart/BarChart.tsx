@@ -37,8 +37,6 @@ const BarChart = ({ countryData }: { countryData: CountryPopulation[] }) => {
   const raceBarChartRef = useRef<HTMLDivElement | null>(null);
   const parentPopulationBarRef = useRef<HTMLDivElement | null>(null);
 
-  console.log({ raceBarChartRef, parentPopulationBarRef });
-
   useEffect(() => {
     if (raceBarChartRef) {
       setSizeBarChartRace({

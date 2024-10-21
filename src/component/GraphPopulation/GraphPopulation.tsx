@@ -16,7 +16,7 @@ const GraphPopulation = () => {
 
   useEffect(() => {
     const newCountryData: CountryPopulation[] = [];
-    console.log({ newCountryData });
+
     for (const countryName in filterCountryData) {
       const amount =
         filterCountryData[countryName as CountryName]?.[currentYear as number]
@@ -54,7 +54,6 @@ const GraphPopulation = () => {
 
   useEffect(() => {
     getData();
-    console.log("fetchData");
   }, [getData]);
 
   const RegionBoxRender = ({

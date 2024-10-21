@@ -17,7 +17,6 @@ const GridLineXAxis = forwardRef<SVGSVGElement, React.SVGProps<SVGSVGElement>>(
     ]); // Initial x-axis domain
 
     useEffect(() => {
-      console.log({ TopAmountPopulation, BottomAmountPopulation });
       setScaleWidthData([0, TopAmountPopulation]);
     }, [TopAmountPopulation, BottomAmountPopulation]);
 
@@ -33,8 +32,6 @@ const GridLineXAxis = forwardRef<SVGSVGElement, React.SVGProps<SVGSVGElement>>(
     const marginTop = 40;
     const marginRight = 20;
     const marginBottom = 20;
-
-    console.log(scaleWidthData);
 
     useEffect(() => {
       const svg = d3.select(svgRef.current);
