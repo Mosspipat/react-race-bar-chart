@@ -14,13 +14,22 @@ const GraphPopulation = () => {
     useContext(BarChartValueContext);
   const [countryData, setCountryData] = useState<CountryPopulation[]>([]);
 
+  type DataCountry = {
+    [countryName: string]: {
+      [year: number]: {
+        amount: number;
+      };
+    };
+  };
+
   useEffect(() => {
     const newCountryData: CountryPopulation[] = [];
 
-    for (const countryName in filterCountryData) {
+    const filterData = filterCountryData as DataCountry;
+
+    for (const countryName in filterData) {
       const amount =
-        filterCountryData[countryName as CountryName]?.[currentYear as number]
-          ?.amount ?? 0;
+        filterData[countryName as CountryName]?.[currentYear]?.amount ?? 0;
       newCountryData.push({
         countryName,
         amount,

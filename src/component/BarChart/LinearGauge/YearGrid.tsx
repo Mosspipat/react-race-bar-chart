@@ -13,7 +13,7 @@ const YearGrid = () => {
 
   const timelineRef = useRef<HTMLDivElement>(null);
   const indicatorRef = useRef<HTMLDivElement>(null);
-  const currentYearRef = useRef<HTMLDivElement>(null);
+  const currentYearRef = useRef<HTMLDivElement | null>(null);
 
   const widthValue = useMemo(() => {
     return timelineRef.current?.getBoundingClientRect().width;
@@ -45,23 +45,24 @@ const YearGrid = () => {
       const ticks = timelineRef?.current?.querySelectorAll("div.tick");
 
       // Find the div that contains the selected year
-      const myLabelYear = Array.from(ticks).find(
-        (tick) => tick.textContent.trim() === String(currentYear)
+      const myLabelYear = Array.from(ticks as ArrayLike<Element>).find(
+        (tick) => tick?.textContent?.trim() === String(currentYear)
       );
 
       if (myLabelYear) {
-        currentYearRef.current = myLabelYear;
+        currentYearRef.current = myLabelYear as HTMLDivElement;
 
         // Get the bounding rectangle of the current year
         const { left, width } = currentYearRef.current.getBoundingClientRect();
-        const timelineRect = timelineRef.current.getBoundingClientRect();
+        const timelineRect = timelineRef?.current?.getBoundingClientRect();
 
         // Calculate the left position based on the timeline's left position
         const leftPosition =
+          timelineRect &&
           left -
-          timelineRect.left +
-          width / 2 -
-          indicatorRef.current.offsetWidth / 2;
+            timelineRect.left +
+            width / 2 -
+            indicatorRef.current.offsetWidth / 2;
 
         // Set the left style of the indicator
         indicatorRef.current.style.left = `${leftPosition}px`;
