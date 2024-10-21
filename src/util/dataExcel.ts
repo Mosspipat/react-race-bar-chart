@@ -24,28 +24,8 @@ export const callDataExcel = async (): Promise<any[]> => {
     });
 };
 
-type CountryStoreData = {
-  amount: number;
-  year?: number;
-};
-
-type CountryListData = Record<string, CountryStoreData[]>;
-
-const testData: CountryListData = {
-  ACountry: [
-    {
-      year: 2020,
-      amount: 1,
-    },
-    {
-      year: 2021,
-      amount: 2,
-    },
-    {
-      year: 2022,
-      amount: 3,
-    },
-  ],
+type CountryAccumulator = {
+  [countryName: string]: CountryData;
 };
 
 export const filterData = ({
@@ -59,24 +39,25 @@ export const filterData = ({
 }) => {
   const filterCountry = data
     .filter((country) => nameCountryList.includes(country["Country name"]))
-    .reduce((acc, country) => {
+    .reduce<CountryAccumulator>((acc, country) => {
       const countryName = country["Country name"];
 
-      // // Initialize the country name key if it doesn't exist
-      // if (!acc[countryName]) {
-      //   acc[countryName] = [];
-      // }
+      // Initialize the country object if it doesn't exist
+      acc[countryName] = acc[countryName] || {};
 
-      if (!acc[countryName]) {
-        acc[countryName] = {};
+      // Check if Year and Population are valid before adding to the accumulator
+      const year = country.Year;
+      const population = country.Population;
+
+      // Check if Year and Population exist before adding to the accumulator
+      if (
+        year &&
+        typeof year === "string" &&
+        population &&
+        !isNaN(Number(population))
+      ) {
+        acc[countryName][year] = { amount: Number(population) };
       }
-
-      acc[countryName] = {
-        ...acc[countryName],
-        [Number(country.Year)]: {
-          amount: Number(country.Population),
-        },
-      };
 
       // // Push the current country's amount and year into the array
       // acc[countryName].push({

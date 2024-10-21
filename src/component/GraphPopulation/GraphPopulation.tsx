@@ -7,6 +7,7 @@ import BarChart from "../BarChart/BarChart";
 import YearController from "../BarChart/YearController";
 import { callDataExcel, filterData } from "../../util/dataExcel";
 import { BarChartValueContext } from "../../context/BarChartValueContextProvider";
+import { CountryName } from "../../type/linearGauge";
 
 const GraphPopulation = () => {
   const { filterCountryData, setFilterCountryData, currentYear } =
@@ -15,9 +16,11 @@ const GraphPopulation = () => {
 
   useEffect(() => {
     const newCountryData: CountryPopulation[] = [];
-    console.log({ newCountryData });
+
     for (const countryName in filterCountryData) {
-      const amount = filterCountryData[countryName]?.[currentYear]?.amount ?? 0;
+      const amount =
+        filterCountryData[countryName as CountryName]?.[currentYear as number]
+          ?.amount ?? 0;
       newCountryData.push({
         countryName,
         amount,
@@ -47,11 +50,10 @@ const GraphPopulation = () => {
       ],
     });
     setFilterCountryData(dataFilter);
-  }, []); // memorize function เมื่อ mount
+  }, [setFilterCountryData]); // memorize function เมื่อ mount
 
   useEffect(() => {
     getData();
-    console.log("fetchData");
   }, [getData]);
 
   const RegionBoxRender = ({

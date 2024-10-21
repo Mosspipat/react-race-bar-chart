@@ -1,4 +1,4 @@
-type CountryName =
+export type CountryName =
   | "Bangladesh"
   | "Brazil"
   | "China"
