@@ -20,15 +20,15 @@ const YearGrid = () => {
   }, [timelineRef.current?.getBoundingClientRect().width]);
 
   useEffect(() => {
-    let timer: NodeJS.Timer;
+    let timer: ReturnType<typeof setInterval>;
 
     if (isPlayGauge) {
       timer = setInterval(() => {
         setCurrentYear((prev) => {
           const nextYear = prev + 1;
           if (nextYear >= maxMinYear.maxYear) {
-            clearInterval(timer); // Stop the timer when exceeding 2020
-            return prev; // Return the previous value to prevent increment
+            clearInterval(timer);
+            return prev;
           }
           return nextYear;
         });
@@ -38,7 +38,7 @@ const YearGrid = () => {
     return () => {
       if (timer) clearInterval(timer);
     };
-  }, [isPlayGauge, setCurrentYear]);
+  }, [isPlayGauge, maxMinYear.maxYear, setCurrentYear]);
 
   useEffect(() => {
     if (indicatorRef.current) {

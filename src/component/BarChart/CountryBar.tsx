@@ -9,8 +9,6 @@ import { countryWith2Letter, RegionColor } from "../../util/country";
 const CountryBar = ({ country }: { country: CountryPopulation }) => {
   const { TopAmountPopulation } = useContext(BarChartValueContext);
 
-  console.log({ name: country.countryName });
-
   const countryBarRef = useRef<HTMLDivElement | null>(null);
 
   const populationAmountRef = useRef<HTMLDivElement | null>(null);
@@ -21,12 +19,6 @@ const CountryBar = ({ country }: { country: CountryPopulation }) => {
   const maxHeightCountryBar = Math.floor(
     countryBarRef.current?.getBoundingClientRect().height as number
   );
-
-  // console.log({
-  //   countryName: country.countryName,
-  //   maxHeightCountryBar,
-  //   maxWidthPopulationBar80Per: maxHeightCountryBar * 0.8,
-  // });
 
   const widthValue = useMemo(() => {
     return (
