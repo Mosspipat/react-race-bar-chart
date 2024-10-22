@@ -44,13 +44,13 @@ const GridLineXAxis = forwardRef<
 
     const x = d3
       .scaleLinear()
-      .domain(scaleWidthData)
+      .domain(scaleWidthData) // แปลงค่าข้อมูลจากโดเมนของข้อมูลไปยังช่วงของพิกเซลในหน้าจอ.
       .range([0, sizeBar.width - marginRight]);
 
     const xAxis = d3
       .axisTop(x)
-      .tickSize(-sizeBar.height + marginTop + marginBottom)
-      .ticks(4);
+      .tickSize(-sizeBar.height + marginTop + marginBottom) //กำหนดความยาวของเส้น tick
+      .ticks(4); //จำนวน tick
 
     const xAxisGroup = svg
       .selectAll(".x-axis")
@@ -58,9 +58,9 @@ const GridLineXAxis = forwardRef<
       .join("g")
       .attr("class", "x-axis")
       .attr("transform", `translate(0,${marginTop})`)
-      .style("font-size", "16px")
-      .style("font-weight", "600")
-      .style("fill", "red");
+      .style("font-size", "16px");
+    // .style("font-weight", "600")
+    // .style("fill", "red");
 
     xAxisGroup
       .transition()
